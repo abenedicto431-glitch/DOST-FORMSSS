@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOST-3 2025 Assessment and Qualifying Form</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; font-size: 12px; color: #000; background: #e8edf5; }
+
+.top-bar {
+  position: sticky; top: 0; z-index: 200;
+  background: #1a3a6b; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.top-bar-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+}
+.top-bar-inner span { color: #a0b4d0; font-size: 12px; }
+.print-btn {
+  background: #ffd700; color: #1a3a6b; border: none;
+  padding: 7px 20px; font-size: 12px; font-weight: bold;
+  cursor: pointer; border-radius: 4px;
+}
+.print-btn:hover { background: #f0c800; }
+
+.page {
+  background: #fff; max-width: 900px;
+  margin: 20px auto 40px; padding: 36px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+/* PROGRAM SELECTOR */
+.program-selector {
+  background: #1a3a6b; color: #fff;
+  padding: 16px 20px; margin-bottom: 20px; border-radius: 6px;
+}
+.sel-title { font-size: 13px; font-weight: bold; margin-bottom: 12px; }
+.prog-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.prog-option {
+  display: flex; align-items: center; gap: 10px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 6px; padding: 10px 14px;
+  cursor: pointer; transition: all 0.2s;
+}
+.prog-option:hover { background: rgba(255,255,255,0.1); }
+.prog-option input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; flex-shrink: 0; accent-color: #ffd700; }
+.opt-label { font-size: 12px; font-weight: bold; color: #fff; line-height: 1.3; }
+.opt-sub { font-size: 10px; color: #a0c4ff; margin-top: 2px; }
+.prog-option.sel-app { background: rgba(39,174,96,0.3); border-color: #27ae60; }
+.prog-option.sel-mpp { background: rgba(41,128,185,0.3); border-color: #2980b9; }
+.prog-option.sel-emp { background: rgba(230,126,34,0.3); border-color: #e67e22; }
+.prog-option.sel-fs  { background: rgba(155,89,182,0.3); border-color: #9b59b6; }
+
+.active-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; min-height: 22px; }
+.badge { display: none; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; color: #fff; }
+.badge.show { display: inline-block; }
+.badge-app { background: #27ae60; }
+.badge-mpp { background: #2980b9; }
+.badge-emp { background: #e67e22; }
+.badge-fs  { background: #9b59b6; }
+
+/* SECTION HEADERS */
+h1.doc-title { font-size: 14px; text-align: center; font-weight: bold; margin-bottom: 3px; }
+h2.sec-head {
+  font-size: 12px; font-weight: bold; margin: 18px 0 8px;
+  text-transform: uppercase; border-left: 4px solid #1a3a6b;
+  padding-left: 8px; color: #1a3a6b;
+}
+.shared-badge {
+  display: inline-block; background: #1a3a6b; color: #fff;
+  font-size: 10px; padding: 2px 8px; border-radius: 3px;
+  margin-bottom: 6px; font-weight: bold;
+}
+h3.sub { font-size: 11.5px; font-weight: bold; margin: 10px 0 5px; }
+
+/* PROGRAM SECTIONS */
+.psec { display: none; border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+.psec.on { display: block; }
+.psec-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 12px; font-size: 11px; font-weight: bold; color: #fff;
+}
+.psec.app .psec-hdr { background: #27ae60; }
+.psec.mpp .psec-hdr { background: #2980b9; }
+.psec.emp .psec-hdr { background: #e67e22; }
+.psec.fs  .psec-hdr { background: #9b59b6; }
+.psec-body { border: 1px solid #ddd; border-top: none; padding: 14px; }
+
+/* PRIVACY */
+.privacy {
+  border: 1px solid #ccc; padding: 10px 12px;
+  margin-bottom: 14px; font-size: 10.5px; line-height: 1.5; background: #fafafa;
+}
+
+/* FORM GRID */
+.fg { border: 1px solid #aaa; margin-bottom: 12px; }
+.fr { display: grid; border-bottom: 1px solid #aaa; }
+.fr:last-child { border-bottom: none; }
+.fc { padding: 6px 8px; border-right: 1px solid #aaa; }
+.fc:last-child { border-right: none; }
+.lbl { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 2px; }
+.fc input[type=text] {
+  width: 100%; border: none; border-bottom: 1px solid #555;
+  font-size: 11px; padding: 2px 0; background: transparent; outline: none;
+}
+.fc input[type=text]:focus { border-bottom-color: #1a3a6b; background: #f0f5ff; }
+.cbi { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.cbi label { font-size: 11px; display: flex; align-items: center; gap: 4px; }
+
+.fi {
+  width: 100%; border: none; border-bottom: 1px solid #000;
+  font-size: 11px; padding: 2px 0; outline: none;
+  margin-bottom: 5px; font-family: Arial, sans-serif;
+}
+.fi:focus { border-bottom-color: #1a3a6b; background: #f0f5ff; }
+
+/* TABLES */
+table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
+table th { padding: 5px 7px; text-align: left; border: 1px solid #aaa; color: #fff; font-size: 11px; }
+table td { padding: 4px 6px; border: 1px solid #ccc; vertical-align: top; }
+table td input[type=text] { width: 100%; border: none; border-bottom: 1px solid #bbb; font-size: 11px; background: transparent; outline: none; }
+table td input[type=text]:focus { border-bottom-color: #1a3a6b; }
+table td select { width: 100%; border: none; font-size: 11px; background: transparent; outline: none; }
+
+.shared-th th { background: #1a3a6b; }
+.app-th th { background: #27ae60; }
+.mpp-th th { background: #2980b9; }
+.emp-th th { background: #e67e22; }
+.fs-th  th { background: #9b59b6; }
+.psto-th th { background: #555; }
+
+.add-btn {
+  border: none; padding: 4px 12px; cursor: pointer;
+  font-size: 10px; border-radius: 3px; margin-bottom: 10px; color: #fff;
+}
+.add-app { background: #27ae60; }
+.add-mpp { background: #2980b9; }
+.add-emp { background: #e67e22; }
+.add-fs  { background: #9b59b6; }
+.add-grey { background: #555; }
+
+.ct th:first-child { width: 65px; text-align: center; }
+.ct td:first-child { text-align: center; }
+.ccat { padding: 5px 10px; font-weight: bold; font-size: 11px; margin: 8px 0 4px; color: #fff; }
+
+.cbg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px; margin-bottom: 8px; }
+.cbg label { display: flex; align-items: center; gap: 5px; }
+
+.lvl-hdr { background: #9b59b6; color: #fff; padding: 4px 10px; font-weight: bold; font-size: 11px; margin: 8px 0 4px; }
+.rec-hdr { background: #7d3c98; color: #fff; padding: 4px 10px; font-weight: bold; font-size: 11px; margin: 8px 0 4px; }
+
+/* no-program hint */
+.no-prog-hint {
+  display: none; text-align: center; padding: 30px;
+  color: #aaa; font-size: 13px; border: 2px dashed #ddd;
+  border-radius: 6px; margin: 10px 0;
+}
+.no-prog-hint.show { display: block; }
+
+hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
+
+@media print {
+  body { background: #fff; }
+  .top-bar { display: none; }
+  .page { box-shadow: none; margin: 0; padding: 24px; max-width: 100%; }
+  .psec-hdr, table th, .ccat, .program-selector, .lvl-hdr, .rec-hdr, .shared-badge {
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <span>DOST-3 · 2025 Assessment and Qualifying Form</span>
+    <button class="print-btn" onclick="window.print()"> Print</button>
+  </div>
+</div>
+
+<div class="page">
+
+  <h1 class="doc-title">DEPARTMENT OF SCIENCE AND TECHNOLOGY</h1>
+  <p style="text-align:center;font-size:11px;margin:4px 0 16px;">2025 Assessment and Qualifying Form</p>
+
+  <!-- PROGRAM SELECTOR -->
+  <div class="program-selector">
+    <div class="sel-title"> SELECT PROGRAM/S:</div>
+    <div class="prog-options">
+      <div class="prog-option" id="opt_app" onclick="tog('app')">
+        <input type="checkbox" id="chk_app" onclick="event.stopPropagation();tog('app')">
+        <div><div class="opt-label"> Agricultural Productivity Program (APP)</div><div class="opt-sub">For farms and agricultural/aquacultural operations</div></div>
+      </div>
+      <div class="prog-option" id="opt_mpp" onclick="tog('mpp')">
+        <input type="checkbox" id="chk_mpp" onclick="event.stopPropagation();tog('mpp')">
+        <div><div class="opt-label"> Manufacturing Productivity Program – BASIC/Regular (MPP)</div><div class="opt-sub">For manufacturing firms and enterprises</div></div>
+      </div>
+      <div class="prog-option" id="opt_emp" onclick="tog('emp')">
+        <input type="checkbox" id="chk_emp" onclick="event.stopPropagation();tog('emp')">
+        <div><div class="opt-label"> Energy Management Program (EMP)</div><div class="opt-sub">For firms seeking energy assessment and management assistance</div></div>
+      </div>
+      <div class="prog-option" id="opt_fs" onclick="tog('fs')">
+        <input type="checkbox" id="chk_fs" onclick="event.stopPropagation();tog('fs')">
+        <div><div class="opt-label"> Food Safety (FS) Enrollment Form</div><div class="opt-sub">For food businesses seeking food safety consultancy</div></div>
+      </div>
+    </div>
+    <div class="active-badges">
+      <span class="badge badge-app" id="bdg_app"> APP</span>
+      <span class="badge badge-mpp" id="bdg_mpp"> MPP</span>
+      <span class="badge badge-emp" id="bdg_emp"> EMP</span>
+      <span class="badge badge-fs"  id="bdg_fs"> Food Safety</span>
+    </div>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="privacy">
+    The DOST3 recognizes its responsibilities under the Republic Act No. 10173 (Act), also known as the <strong>Data Privacy Act of 2012</strong>. The personal data obtained from this form is analyzed, entered, and stored within the Department's authorized information and communications system and will only be accessed by the DOST3 authorized personnel. The DOST3 has instituted appropriate organizational, technical, and physical security measures to ensure the protection of the project-beneficiary's personal data.
+  </div>
+
+  <!-- NO PROGRAM HINT -->
+  <div class="no-prog-hint show" id="no_prog_hint">
+     Please select at least one program above to begin filling out the form.
+  </div>
+
+  <!-- 
+       I. BASIC INFORMATION — SHARED
+   -->
+  <div id="shared_sections" style="display:none;">
+
+  <h2 class="sec-head">I. Basic Information</h2>
+  <span class="shared-badge"> SHARED — fill out once, applies to all selected programs</span>
+
+  <div class="fg">
+    <!-- Name row — changes label based on program -->
+    <div class="fr" style="grid-template-columns:1fr 1fr;">
+      <div class="fc">
+        <div class="lbl" id="lbl_entity">Name of Farm / Firm / Organization:</div>
+        <input type="text" placeholder="Enter name">
+      </div>
+      <div class="fc">
+        <!-- APP unique: Area, Year, Workers -->
+        <div id="app_unique_basic" style="display:none;">
+          <div class="lbl">Area of Farm (ha):</div><input type="text" placeholder="e.g. 2.5 ha">
+          <div class="lbl" style="margin-top:4px;">Year Established:</div><input type="text" placeholder="YYYY">
+          <div class="lbl" style="margin-top:4px;">No. of Workers:</div><input type="text" placeholder="Number">
+        </div>
+        <!-- FS unique: Province -->
+        <div id="fs_unique_basic" style="display:none;">
+          <div class="lbl">Province:</div><input type="text">
+        </div>
+      </div>
+    </div>
+
+    <div class="fr" style="grid-template-columns:1fr 1fr;">
+      <div class="fc">
+        <div class="lbl" id="lbl_owner">Owner / Chairman:</div>
+        <input type="text" placeholder="Full name">
+        <div class="cbi" style="margin-top:4px;">
+          <label><input type="checkbox"> PWD</label>
+          <label><input type="checkbox"> Senior Citizen</label>
+        </div>
+      </div>
+      <div class="fc">
+        <div class="lbl">Contact Person:</div><input type="text" placeholder="Full name">
+        <div class="lbl" style="margin-top:4px;">Sex (M/F):</div><input type="text" placeholder="M/F" style="width:50px">
+      </div>
+    </div>
+
+    <div class="fr" style="grid-template-columns:90px 70px 1fr;">
+      <div class="fc"><div class="lbl">Sex (M/F):</div><input type="text" placeholder="M/F" style="width:42px"></div>
+      <div class="fc"><div class="lbl">Age:</div><input type="text" placeholder="Age" style="width:42px"></div>
+      <div class="fc">
+        <div class="lbl">Position:</div><input type="text" placeholder="Position">
+        <!-- FS unique: Birthdate -->
+        <div id="fs_birthdate" style="display:none;margin-top:4px;">
+          <div class="lbl">Birthdate:</div><input type="text" placeholder="MM/DD/YYYY">
+        </div>
+      </div>
+    </div>
+
+    <div class="fr" style="grid-template-columns:1fr 1fr;">
+      <div class="fc">
+        <div class="lbl" id="lbl_address">Complete Address:</div>
+        <input type="text" placeholder="Street, Barangay, Municipality, Province">
+      </div>
+      <div class="fc">
+        <div class="lbl">Contact Number / Mobile No.:</div><input type="text" placeholder="Telephone / Mobile">
+        <div class="lbl" style="margin-top:4px;">E-mail Address:</div><input type="text" placeholder="email@example.com">
+      </div>
+    </div>
+
+    <!-- FS unique: separate Contact Person details -->
+    <div id="fs_contact_extra" style="display:none;">
+      <div class="fr" style="grid-template-columns:1fr 1fr;">
+        <div class="fc"><div class="lbl">Contact Person's Contact No.:</div><input type="text"></div>
+        <div class="fc"><div class="lbl">Contact Person's E-mail:</div><input type="text"></div>
+      </div>
+    </div>
+
+  </div><!-- end fg -->
+
+  <hr class="div">
+
+  <!-- 
+       II. PREVIOUS CONSULTATIONS — SHARED
+   -->
+  <h2 class="sec-head">II. Previous Consultations</h2>
+  <span class="shared-badge"> SHARED — fill out once, applies to all selected programs</span>
+
+  <div style="margin:8px 0;">
+    <label><input type="radio" name="prev_con" value="yes" onchange="tc(true)"> Yes (please specify below)</label>&nbsp;&nbsp;
+    <label><input type="radio" name="prev_con" value="no" onchange="tc(false)"> No</label>
+  </div>
+  <div id="con_tbl">
+    <table class="shared-th">
+      <thead><tr><th>Agency / Company</th><th>Date of Assistance</th><th>Type of Assistance / Consultancy</th></tr></thead>
+      <tbody id="con_tb">
+        <tr><td><input type="text"></td><td><input type="text" placeholder="YYYY-MM-DD"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text" placeholder="YYYY-MM-DD"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text" placeholder="YYYY-MM-DD"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+    <button class="add-btn add-grey" onclick="ar('con_tb',3)">+ Add Row</button>
+  </div>
+  <div id="con_no" style="display:none;">
+    <div class="lbl">If No, why not?</div>
+    <input class="fi" type="text" id="con_no_reason" placeholder="Please explain why no prior consultation was made">
+  </div>
+
+  <hr class="div">
+
+  <!-- 
+       III. PROGRAM-SPECIFIC SECTIONS
+   -->
+  <h2 class="sec-head">III. Program-Specific Information</h2>
+
+  <!--  APP UNIQUE  -->
+  <div class="psec app" id="s_app">
+    <div class="psec-hdr"> APP — Agricultural Productivity Program</div>
+    <div class="psec-body">
+
+      <div class="lbl">Brief Farm Background:</div>
+      <input class="fi" type="text" id="app_farm_bg" placeholder="Describe the farm's history and nature of operations">
+      <div class="lbl" style="margin-top:6px;">Commodity 1:</div>
+      <input class="fi" type="text" id="app_com1" placeholder="Commodity 1">
+      <div class="lbl" style="margin-top:6px;">Commodity 2:</div>
+      <input class="fi" type="text" id="app_com2" placeholder="Commodity 2">
+      <div class="lbl" style="margin-top:6px;">Commodity 3:</div>
+      <input class="fi" type="text" id="app_com3" placeholder="Commodity 3">
+
+      <h3 class="sub" style="margin-top:10px;">D. Farm Data</h3>
+      <table class="app-th" style="font-size:10.5px;" id="app_farm_table">
+        <thead><tr><th>Commodity</th><th>Variety/Breed</th><th>Area</th><th>Avg. Yield/Cropping Season</th><th>Avg. Income/Cropping Season</th><th>No. of Cropping/Year</th><th>Other Info</th></tr></thead>
+        <tbody id="app_fb">
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-btn add-app" onclick="ar('app_fb',7)">+ Add Row</button>
+    </div>
+  </div>
+
+  <!--  MPP UNIQUE  -->
+  <div class="psec mpp" id="s_mpp">
+    <div class="psec-hdr"> MPP — Manufacturing Productivity Program</div>
+    <div class="psec-body">
+
+      <h3 class="sub">Firm Profile</h3>
+      <div style="display:flex;gap:20px;align-items:center;margin-bottom:8px;font-size:11px;">
+        <strong>SETUP iFund Beneficiary:</strong>
+        <label><input type="radio" name="mpp_ifund"> Yes</label>
+        <label><input type="radio" name="mpp_ifund"> No</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div><div class="lbl">Year Granted:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Amount (Php):</div><input class="fi" type="text"></div>
+      </div>
+      <div class="lbl">Equipment/System Acquired:</div>
+      <input class="fi" type="text" placeholder="List equipment/systems acquired">
+      <div class="lbl" style="margin-top:6px;">Brief Firm Background:</div>
+      <input class="fi" type="text" placeholder="Describe the firm's history and nature of business">
+
+      <h3 class="sub" style="margin-top:10px;">Pre-Assessment Checklist</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div><div class="lbl">Year Firm Established:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Initial Capital (Php):</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Type of Organization:</h3>
+      <div class="cbi" style="margin-bottom:8px;">
+        <label><input type="checkbox"> Single Proprietorship</label><label><input type="checkbox"> Cooperative</label>
+        <label><input type="checkbox"> Partnership</label><label><input type="checkbox"> Corporation</label>
+        <label><input type="checkbox"> Profit</label><label><input type="checkbox"> Non-profit</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div><div class="lbl">Company Registration No.:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Year Registered:</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Classification According to Capital:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="mpp_cap"> Micro (&lt;₱1.5M)</label>
+        <label><input type="radio" name="mpp_cap"> Small (₱1.5M–₱15M)</label>
+        <label><input type="radio" name="mpp_cap"> Medium (₱15M–₱100M)</label>
+      </div>
+      <h3 class="sub">Classification According to Employment:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="mpp_emp"> Micro (1–9)</label>
+        <label><input type="radio" name="mpp_emp"> Small (10–99)</label>
+        <label><input type="radio" name="mpp_emp"> Medium (100–199)</label>
+      </div>
+      <h3 class="sub">Number of Employees:</h3>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Non-Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Indirect/On-call:</div><input class="fi" type="text"></div>
+        <div><div class="lbl"><strong>Total:</strong></div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Production:</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><div class="lbl">Annual Volume of Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Estimated Value (Php):</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Market:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="checkbox"> Direct Export</label>
+        <label><input type="checkbox"> Sub-contractor</label>
+        <label><input type="checkbox"> Potential for Export</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Existing Foreign Market:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Existing Local Market:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Target Additional Market:</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Business Activity:</h3>
+      <div class="cbg" style="margin-bottom:10px;">
+        <label><input type="checkbox"> Food Processing</label><label><input type="checkbox"> Furniture</label>
+        <label><input type="checkbox"> Gifts, Decors and Housewares</label><label><input type="checkbox"> Metal Casting</label>
+        <label><input type="checkbox"> Machining</label><label><input type="checkbox"> Welding and Fabrication</label>
+        <label><input type="checkbox"> Electroplating</label><label><input type="checkbox"> Forging</label>
+        <label><input type="checkbox"> Tool, Die and Mould Fabrication</label><label><input type="checkbox"> Aquaculture and Marine Resources</label>
+        <label><input type="checkbox"> Horticulture</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox"> Others: <input type="text" style="border:none;border-bottom:1px solid #000;flex:1;font-size:11px;outline:none;"></label>
+      </div>
+      <div><div class="lbl">Specific products/services offered to customers:</div><input class="fi" type="text"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+        <div><div class="lbl">Firm's plan (next 5 years):</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Firm's plan (next 10 years):</div><input class="fi" type="text"></div>
+      </div>
+      <div style="margin-top:8px;"><div class="lbl">Organizational Chart:</div><input class="fi" type="text" placeholder="Describe or note 'see attached'. If none, PSTO can assist."></div>
+
+      <h3 class="sub" style="margin-top:12px;">Technical Assistance Needed / Productivity Improvement Concerns</h3>
+      <p style="font-size:11px;font-style:italic;margin-bottom:6px;">(Please select your top 3–4 major areas of concern)</p>
+      <div class="ccat" style="background:#2980b9;">A. Production</div>
+      <table class="mpp-th ct">
+        <thead><tr><th>Select</th><th>Area of Concern</th><th>Sub Areas</th></tr></thead>
+        <tbody>
+          <tr><td><input type="checkbox"></td><td>Material Management System</td><td><label><input type="checkbox"> Procurement</label> <label><input type="checkbox"> Inventory</label> <label><input type="checkbox"> Warehousing</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Production Planning and Control</td><td><label><input type="checkbox"> Delivery</label> <label><input type="checkbox"> Demand Problem</label> <label><input type="checkbox"> Line Balancing</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Capacity Utilization</td><td><label><input type="checkbox"> Under/Over Capacity</label> <label><input type="checkbox"> Time &amp; Motion Study</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Machine &amp; Equipment Utilization</td><td><label><input type="checkbox"> Capacity</label> <label><input type="checkbox"> Appropriate Machine &amp; Equipment</label> <label><input type="checkbox"> Upgrading</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Process &amp; Operations</td><td><label><input type="checkbox"> Production Issues</label> <label><input type="checkbox"> Procedures (SOP)</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Quality Control Assurance System</td><td><label><input type="checkbox"> Products/Services Issues</label> <label><input type="checkbox"> Rejects/Reworks</label> <label><input type="checkbox"> Customer's Complaint</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Wastage Levels</td><td><label><input type="checkbox"> Rejects</label> <label><input type="checkbox"> High Cost</label> <label><input type="checkbox"> Compliance to Regulatory Bodies</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Product Packaging</td><td><label><input type="checkbox"> Appropriate Packaging</label> <label><input type="checkbox"> Loading Issues</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Layout</td><td><label><input type="checkbox"> Disorganised Process/Product</label> <label><input type="checkbox"> Limited Space</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Safety &amp; Housekeeping</td><td><label><input type="checkbox"> OSH / 5S</label></td></tr>
+        </tbody>
+      </table>
+      <div class="ccat" style="background:#1a6b9e;">B. Finance</div>
+      <table class="mpp-th ct">
+        <thead><tr><th>Select</th><th>Area of Concern</th><th>Sub Areas</th></tr></thead>
+        <tbody>
+          <tr><td><input type="checkbox"></td><td>Financial System &amp; Controls</td><td><label><input type="checkbox"> Accounting, Product Costing</label> <label><input type="checkbox"> Sales &amp; Income</label></td></tr>
+        </tbody>
+      </table>
+      <div class="ccat" style="background:#145f8c;">C. Administrative</div>
+      <table class="mpp-th ct">
+        <thead><tr><th>Select</th><th>Area of Concern</th><th>Sub Areas</th></tr></thead>
+        <tbody>
+          <tr><td><input type="checkbox"></td><td>Work Organization</td><td><label><input type="checkbox"> Duties and Responsibilities</label> <label><input type="checkbox"> Issues on Employees/Workers</label> <label><input type="checkbox"> Leadership</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Human Resource</td><td><label><input type="checkbox"> Management-Worker Issues</label> <label><input type="checkbox"> DOLE Requirements</label></td></tr>
+          <tr><td><input type="checkbox"></td><td>Plant Maintenance</td><td><label><input type="checkbox"> Machine &amp; Equipment Maintenance</label> <label><input type="checkbox"> Preventive Maintenance</label></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!--  EMP UNIQUE  -->
+  <div class="psec emp" id="s_emp">
+    <div class="psec-hdr"> EMP — Energy Management Program</div>
+    <div class="psec-body">
+
+      <h3 class="sub">Firm Profile</h3>
+      <div class="lbl">Brief Firm Background:</div>
+      <input class="fi" type="text" placeholder="Describe the firm's history and nature of business">
+
+      <h3 class="sub" style="margin-top:10px;">Pre-Assessment Checklist</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div><div class="lbl">Year Firm Established:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Initial Capital (Php):</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Type of Organization:</h3>
+      <div class="cbi" style="margin-bottom:8px;">
+        <label><input type="checkbox"> Single Proprietorship</label><label><input type="checkbox"> Cooperative</label>
+        <label><input type="checkbox"> Partnership</label><label><input type="checkbox"> Corporation</label>
+        <label><input type="checkbox"> Profit</label><label><input type="checkbox"> Non-profit</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div><div class="lbl">Company Registration No.:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Year Registered:</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Classification According to Capital:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="emp_cap"> Micro (&lt;₱1.5M)</label>
+        <label><input type="radio" name="emp_cap"> Small (₱1.5M–₱15M)</label>
+        <label><input type="radio" name="emp_cap"> Medium (₱15M–₱100M)</label>
+      </div>
+      <h3 class="sub">Classification According to Employment:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="emp_empl"> Micro (1–9)</label>
+        <label><input type="radio" name="emp_empl"> Small (10–99)</label>
+        <label><input type="radio" name="emp_empl"> Medium (100–199)</label>
+      </div>
+      <h3 class="sub">Number of Employees:</h3>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Non-Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Indirect/On-call:</div><input class="fi" type="text"></div>
+        <div><div class="lbl"><strong>Total:</strong></div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Production:</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><div class="lbl">Annual Volume of Production:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Estimated Value (Php):</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Market:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="checkbox"> Direct Export</label>
+        <label><input type="checkbox"> Sub-contractor</label>
+        <label><input type="checkbox"> Potential for Export</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Existing Foreign Market:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Existing Local Market:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Target Additional Market:</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Business Activity:</h3>
+      <div class="cbg" style="margin-bottom:10px;">
+        <label><input type="checkbox"> Food Processing</label><label><input type="checkbox"> Furniture</label>
+        <label><input type="checkbox"> Gifts, Decors and Housewares</label><label><input type="checkbox"> Metal Casting</label>
+        <label><input type="checkbox"> Machining</label><label><input type="checkbox"> Welding and Fabrication</label>
+        <label><input type="checkbox"> Electroplating</label><label><input type="checkbox"> Forging</label>
+        <label><input type="checkbox"> Tool, Die and Mould Fabrication</label><label><input type="checkbox"> Aquaculture and Marine Resources</label>
+        <label><input type="checkbox"> Horticulture</label>
+        <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox"> Others: <input type="text" style="border:none;border-bottom:1px solid #000;flex:1;font-size:11px;outline:none;"></label>
+      </div>
+      <div><div class="lbl">Specific products/services offered to customers:</div><input class="fi" type="text"></div>
+
+      <h3 class="sub" style="margin-top:12px;">Technical Problems/Needs in regards to Energy Consumption:</h3>
+      <input class="fi" type="text" placeholder="Describe energy-related technical problems or needs">
+
+      <h3 class="sub" style="margin-top:10px;">1. Electricity Consumption (past 12 months):</h3>
+      <table class="emp-th" style="font-size:10.5px;">
+        <thead><tr><th>Month</th><th>kWh Consumed</th><th>Amount (Php)</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="January"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="February"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="March"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="April"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="May"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="June"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="July"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="August"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="September"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="October"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="November"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="December"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub" style="margin-top:10px;">2. Fuel Consumption (past 12 months):</h3>
+      <p style="font-size:10.5px;font-style:italic;margin-bottom:4px;">Note: For production fuel only; do NOT include fuel for transportation.</p>
+      <table class="emp-th" style="font-size:10.5px;">
+        <thead><tr><th>Month</th><th>Fuel Type</th><th>Volume/Qty</th><th>Amount (Php)</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td><input type="text" placeholder="January"></td><td><input type="text" placeholder="LPG/Diesel/etc."></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="February"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="March"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="April"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="May"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="June"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="July"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="August"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="September"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="October"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="November"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text" placeholder="December"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub" style="margin-top:10px;">Combination Total (Electricity + Fuel):</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><div class="lbl">Total kWh (1 year):</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Total Fuel Cost, Php (1 year):</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Combined Total (Php/year):</div><input class="fi" type="text"></div>
+      </div>
+
+      <h3 class="sub">Detailed Inventory of Energy Consuming Equipment:</h3>
+      <p style="font-size:10.5px;font-style:italic;margin-bottom:4px;">(Lighting, Air Conditioning, Machines, Compressed Air, etc.)</p>
+      <table class="emp-th" style="font-size:10.5px;">
+        <thead>
+          <tr><th rowspan="2">Equipment and Basic Description</th><th rowspan="2">Qty</th><th colspan="2">Rated Capacity (if known)</th><th rowspan="2">Hours of Operation/Day</th></tr>
+          <tr><th>HP</th><th>kW</th></tr>
+        </thead>
+        <tbody id="emp_eq">
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-btn add-emp" onclick="ar('emp_eq',5)">+ Add Row</button>
+      <p style="font-size:11px;margin-bottom:8px;"><u><strong>Please attach, if available, Floor Plan with Electrical Layout.</strong></u> If none, basic layout drawing will do.</p>
+
+      <h3 class="sub">Qualification Criteria — check where applicable:</h3>
+      <div style="display:grid;gap:6px;font-size:11px;margin-top:4px;">
+        <label><input type="checkbox"> (A) Minimum Total kWh Electrical Consumption for 1 year: not less than <strong>18,000 kWh</strong></label>
+        <div>
+          <label><input type="checkbox"> (B) Minimum Total Fuel Consumption for 1 year:</label>
+          <div style="margin-left:20px;display:grid;gap:4px;margin-top:4px;">
+            <label><input type="checkbox"> a. LPG: not less than 2,500 kg/yr</label>
+            <label><input type="checkbox"> b. Diesel/Bunker: not less than 5,000 liters/yr (excluding transport)</label>
+            <label><input type="checkbox"> c. Combination of a and b: not less than ₱220,000.00/yr</label>
+          </div>
+        </div>
+        <label><input type="checkbox"> (C) Minimum Total A and B for 1 year = not less than ₱220,000.00/yr</label>
+      </div>
+    </div>
+  </div>
+
+  <!--  FS UNIQUE  -->
+  <div class="psec fs" id="s_fs">
+    <div class="psec-hdr"> Food Safety — Enrollment Form</div>
+    <div class="psec-body">
+
+      <h3 class="sub">Business Registration &amp; Certifications</h3>
+      <p style="font-size:11px;font-style:italic;margin-bottom:8px;">Fill out what is applicable:</p>
+      <div style="display:grid;gap:8px;font-size:11px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <label><input type="checkbox" id="chk_dole"> DOLE/CDA/SEC Registration</label>
+          <div class="lbl" style="display:inline;">Reg. No.:</div> <input type="text" id="fs_dole_no" style="width:130px;border:none;border-bottom:1px solid #000;font-size:11px;">
+          <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_dole_valid" style="width:90px;border:none;border-bottom:1px solid #000;font-size:11px;">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <label><input type="checkbox" id="chk_dti"> DTI Registration</label>
+          <div class="lbl" style="display:inline;">Reg. No.:</div> <input type="text" id="fs_dti_no" style="width:130px;border:none;border-bottom:1px solid #000;font-size:11px;">
+          <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_dti_valid" style="width:90px;border:none;border-bottom:1px solid #000;font-size:11px;">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <label><input type="checkbox" id="chk_bp"> Business Permit</label>
+          <div class="lbl" style="display:inline;">Reg. No.:</div> <input type="text" id="fs_bp_no" style="width:130px;border:none;border-bottom:1px solid #000;font-size:11px;">
+          <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_bp_valid" style="width:90px;border:none;border-bottom:1px solid #000;font-size:11px;">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <label><input type="checkbox" id="chk_fda"> FDA License to Operate</label>
+          <div class="lbl" style="display:inline;">Reg. No.:</div> <input type="text" id="fs_fda_no" style="width:130px;border:none;border-bottom:1px solid #000;font-size:11px;">
+          <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_fda_valid" style="width:90px;border:none;border-bottom:1px solid #000;font-size:11px;">
+        </div>
+        <div>
+          <label><input type="checkbox" id="chk_cpr"> FDA Certificate of Product Registration:</label>
+          <div style="margin-left:18px;margin-top:4px;display:grid;gap:4px;">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <div class="lbl" style="display:inline;">Product 1:</div> <input type="text" id="fs_cpr1_prod" style="width:150px;border:none;border-bottom:1px solid #000;font-size:11px;">
+              <div class="lbl" style="display:inline;">CPR No.:</div> <input type="text" id="fs_cpr1_no" style="width:110px;border:none;border-bottom:1px solid #000;font-size:11px;">
+              <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_cpr1_valid" style="width:80px;border:none;border-bottom:1px solid #000;font-size:11px;">
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <div class="lbl" style="display:inline;">Product 2:</div> <input type="text" id="fs_cpr2_prod" style="width:150px;border:none;border-bottom:1px solid #000;font-size:11px;">
+              <div class="lbl" style="display:inline;">CPR No.:</div> <input type="text" id="fs_cpr2_no" style="width:110px;border:none;border-bottom:1px solid #000;font-size:11px;">
+              <div class="lbl" style="display:inline;">Valid Until:</div> <input type="text" id="fs_cpr2_valid" style="width:80px;border:none;border-bottom:1px solid #000;font-size:11px;">
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label><input type="checkbox" id="chk_other_reg"> Other:</label>
+          <input type="text" id="fs_other_reg" style="flex:1;border:none;border-bottom:1px solid #000;font-size:11px;">
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:10px;">Type of Organization:</h3>
+      <div class="cbi" style="margin-bottom:8px;">
+        <label><input type="checkbox"> Single Proprietorship</label><label><input type="checkbox"> Cooperative</label>
+        <label><input type="checkbox"> Partnership</label><label><input type="checkbox"> Corporation</label>
+        <label><input type="checkbox"> Profit</label><label><input type="checkbox"> Non-profit</label>
+      </div>
+      <h3 class="sub">Classification According to Capital:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="fs_cap"> Micro (&lt;₱3M)</label>
+        <label><input type="radio" name="fs_cap"> Small (₱3M–₱15M)</label>
+        <label><input type="radio" name="fs_cap"> Medium (₱15M–₱100M)</label>
+      </div>
+      <h3 class="sub">Classification According to Employment:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="radio" name="fs_empl"> Micro (1–9)</label>
+        <label><input type="radio" name="fs_empl"> Small (10–99)</label>
+        <label><input type="radio" name="fs_empl"> Medium (100–199)</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">No. of Employees (M):</div><input class="fi" type="text"></div>
+        <div><div class="lbl">No. of Employees (F):</div><input class="fi" type="text"></div>
+      </div>
+      <h3 class="sub">Existing Market:</h3>
+      <div class="cbi" style="margin-bottom:6px;">
+        <label><input type="checkbox"> Local Market</label>
+        <label><input type="checkbox"> Foreign Market</label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Local Market Details:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Foreign Market Details:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Target Additional Market:</div><input class="fi" type="text"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div><div class="lbl">Products/Services 1:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Products/Services 2:</div><input class="fi" type="text"></div>
+        <div><div class="lbl">Products/Services 3:</div><input class="fi" type="text"></div>
+      </div>
+      <div style="margin-bottom:10px;font-size:11px;">
+        <div class="lbl">Do you have an existing building facility solely dedicated for production?</div>
+        <div class="cbi" style="margin-top:4px;">
+          <label><input type="radio" name="fs_bldg"> Yes, Location: <input type="text" style="border:none;border-bottom:1px solid #000;font-size:11px;width:180px;margin-left:4px;"></label>
+          <label><input type="radio" name="fs_bldg"> No</label>
+        </div>
+      </div>
+
+      <div class="lvl-hdr">Level 1 — Have you attended any of the following?</div>
+      <table class="fs-th" style="font-size:11px;">
+        <thead><tr><th>Training/Seminar</th><th>Yes/No</th><th>Date Attended</th><th>Service Provider</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td>5S of Good Housekeeping</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td>Basic Food Hygiene (5 Keys)</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td>Food Hazards</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td>Food Laws</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td>Principles of GMP / Sanitation Code of the Philippines</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="lvl-hdr">Level 2 — Do you have any of the following Food Safety Manuals?</div>
+      <table class="fs-th" style="font-size:11px;">
+        <thead><tr><th>Manual</th><th>Yes/None</th><th>Date Attended</th><th>Service Provider</th><th>Updated Records? (Y/N)</th></tr></thead>
+        <tbody>
+          <tr><td>Good Manufacturing Practices (GMP) Manual</td><td><select><option></option><option>Yes</option><option>None</option></select></td><td><input type="text"></td><td><input type="text"></td><td><select><option></option><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Sanitation Standard Operating Policies, Programs and Procedure (SSOPs)</td><td><select><option></option><option>Yes</option><option>None</option></select></td><td><input type="text"></td><td><input type="text"></td><td><select><option></option><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Product Standard Operating Policies, Programs and Procedure (PSOPs)</td><td><select><option></option><option>Yes</option><option>None</option></select></td><td><input type="text"></td><td><input type="text"></td><td><select><option></option><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Quality Standard Operating Policies, Programs and Procedure (QSOPs)</td><td><select><option></option><option>Yes</option><option>None</option></select></td><td><input type="text"></td><td><input type="text"></td><td><select><option></option><option>Yes</option><option>No</option></select></td></tr>
+          <tr><td>Do you need assistance in facility and document audit?</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="lvl-hdr">Level 3</div>
+      <table class="fs-th" style="font-size:11px;">
+        <thead><tr><th>Question</th><th>Yes/No</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td>Do you need assistance in acquiring FDA License to Operate (LTO) / Certificate of Product Registration (CPR)?</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>Is the company willing to shoulder expenses during application for FDA-LTO/CPR? (Application Fee, Facility Improvement, Lab Analysis, etc.)</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="lvl-hdr">Specialized Trainings / Consultancy — Does the company need any of the following?</div>
+      <table class="fs-th" style="font-size:11px;">
+        <thead><tr><th>Training/Consultancy</th><th>Yes/No</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td>Understanding Nutrition Facts and Packaging and Labeling</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>Systematic Plant Layout</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>Halal</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>HACCP</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>Product and Process Improvement</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>ISO 22000:2018</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>GMP Certification</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td>US-FDA</td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+          <tr><td style="display:flex;align-items:center;gap:4px;">Others: <input type="text" style="flex:1;border:none;border-bottom:1px solid #bbb;font-size:11px;"></td><td><select><option></option><option>Yes</option><option>No</option></select></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+
+      <div class="rec-hdr">RECOMMENDATION (to be filled out by CLFST Member/s)</div>
+      <table class="fs-th" style="font-size:11px;">
+        <thead><tr><th colspan="2">To be enrolled in:</th><th>Specify:</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4" style="text-align:center;font-weight:bold;width:80px;">Enrolled in:</td><td><label><input type="checkbox"> Level 1</label></td><td><input type="text"></td></tr>
+          <tr><td><label><input type="checkbox"> Level 2</label></td><td><input type="text"></td></tr>
+          <tr><td><label><input type="checkbox"> Level 3</label></td><td><input type="text"></td></tr>
+          <tr><td><label><input type="checkbox"> Specialized Training / Consultancy</label></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+      <div class="lbl" style="margin-top:8px;">Remarks:</div>
+      <input class="fi" type="text" placeholder="Additional remarks from CLFST Member">
+      <div class="lbl" style="margin-top:8px;">Food Safety Consultancy to be handled by:</div>
+      <div class="cbi" style="margin-top:4px;">
+        <label><input type="radio" name="fs_handler"> Internal (Central Luzon Food Safety Team)</label>
+        <label><input type="radio" name="fs_handler"> External (Food Safety Consultant)</label>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- 
+       IV. PRE-ASSESSMENT — SHARED (DOST Staff)
+   -->
+  <h2 class="sec-head">IV. Pre-Assessment <span style="font-weight:normal;font-size:10px;">(to be filled up by DOST-III PSTO Staff)</span></h2>
+  <span class="shared-badge"> SHARED — applies to all selected programs</span>
+  <table class="psto-th" style="margin-top:8px;">
+    <thead><tr><th>Possible Areas of Interventions</th><th>Technical Needs / Problems</th><th>Initial Recommendations / Remarks</th></tr></thead>
+    <tbody id="psto_tb">
+      <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-btn add-grey" onclick="ar('psto_tb',3)">+ Add Row</button>
+
+  </div><!-- end shared_sections -->
+
+  <!-- REVIEW & SUBMIT BUTTON -->
+  <div id="review_btn_wrap" style="display:none; text-align:center; margin-top:24px;">
+    <button onclick="showSummary()" style="
+      background: #27ae60; color: #fff; border: none;
+      padding: 14px 40px; font-size: 14px; font-weight: bold;
+      cursor: pointer; border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(39,174,96,0.4);
+      transition: all 0.2s;
+    " onmouseover="this.style.background='#1e8449'" onmouseout="this.style.background='#27ae60'">
+       Review &amp; Submit
+    </button>
+    <p style="font-size:10.5px; color:#888; margin-top:8px;">Please review your answers before submitting.</p>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- SUMMARY MODAL OVERLAY -->
+<div id="summary_overlay" style="
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); z-index:999; overflow-y:auto;
+">
+  <div style="
+    background:#fff; max-width:860px; margin:30px auto 30px;
+    border-radius:8px; overflow:hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  ">
+    <!-- Summary Header -->
+    <div style="background:#1a3a6b; color:#fff; padding:16px 24px; display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <div style="font-size:15px; font-weight:bold;"> Review Your Answers</div>
+        <div style="font-size:11px; color:#a0c4ff; margin-top:2px;">Please check all information before printing or saving.</div>
+      </div>
+      <button onclick="closeSummary()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:12px;"> Close</button>
+    </div>
+
+    <!-- Summary Content -->
+    <div id="summary_content" style="padding:24px; font-size:12px; line-height:1.7;"></div>
+
+    <!-- Summary Footer Buttons -->
+    <div style="padding:16px 24px; border-top:1px solid #eee; display:flex; gap:12px; justify-content:flex-end; background:#f9f9f9; flex-wrap:wrap;">
+      <button onclick="closeSummary()" style="background:#e0e0e0; color:#333; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
+         Edit Answers
+      </button>
+      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
+         Save as PDF
+      </button>
+      <button onclick="submitToSheet()" id="submit_btn" style="background:#27ae60; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
+         Submit to DOST-3
+      </button>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success_msg" style="display:none; background:#eafaf1; border-top:3px solid #27ae60; padding:20px 24px; text-align:center;">
+      <div style="font-size:16px; font-weight:bold; color:#27ae60; margin-bottom:6px;"> Successfully Submitted!</div>
+      <div style="font-size:11px; color:#555; margin-bottom:12px;">Your form has been sent to DOST-3. Please save a copy for your records.</div>
+      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:8px 20px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
+         Save as PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+var state = { app:false, mpp:false, emp:false, fs:false };
+var clrs  = { app:'sel-app', mpp:'sel-mpp', emp:'sel-emp', fs:'sel-fs' };
+
+function tog(p) {
+  state[p] = !state[p];
+  document.getElementById('chk_'+p).checked = state[p];
+  var opt = document.getElementById('opt_'+p);
+  state[p] ? opt.classList.add(clrs[p]) : opt.classList.remove(clrs[p]);
+  document.getElementById('bdg_'+p).classList.toggle('show', state[p]);
+  document.querySelectorAll('.psec.'+p).forEach(function(el){ el.classList.toggle('on', state[p]); });
+  refresh();
+}
+
+function refresh() {
+  var any = state.app || state.mpp || state.emp || state.fs;
+  document.getElementById('shared_sections').style.display = any ? 'block' : 'none';
+  document.getElementById('no_prog_hint').classList.toggle('show', !any);
+  document.getElementById('review_btn_wrap').style.display = any ? 'block' : 'none';
+
+  var isApp = state.app;
+  var isFs  = state.fs;
+  document.getElementById('lbl_entity').textContent = isApp && !state.mpp && !state.emp && !isFs
+    ? 'Name of Farm:' : isFs && !isApp && !state.mpp && !state.emp
+    ? 'Name of Firm / Organization:' : 'Name of Farm / Firm / Organization:';
+  document.getElementById('lbl_owner').textContent  = isFs ? 'Owner / Chairman:' : 'Owner:';
+  document.getElementById('lbl_address').textContent = isApp && !state.mpp && !state.emp && !isFs
+    ? 'Farm Complete Address:' : 'Complete Address:';
+
+  document.getElementById('app_unique_basic').style.display = state.app ? 'block' : 'none';
+  document.getElementById('fs_unique_basic').style.display  = state.fs && !state.app ? 'block' : 'none';
+  document.getElementById('fs_birthdate').style.display     = state.fs ? 'block' : 'none';
+  document.getElementById('fs_contact_extra').style.display = state.fs ? '' : 'none';
+}
+
+function tc(yes) {
+  document.getElementById('con_tbl').style.display = yes ? 'block' : 'none';
+  document.getElementById('con_no').style.display  = yes ? 'none' : 'block';
+}
+
+function ar(id, cols) {
+  var tb = document.getElementById(id);
+  var row = tb.insertRow();
+  var html = '';
+  for(var i=0;i<cols;i++) html += '<td><input type="text"></td>';
+  row.innerHTML = html;
+}
+
+function showSummary() {
+  var html = '';
+  var progNames = { app:' APP', mpp:' MPP', emp:' EMP', fs:' Food Safety' };
+  var colors    = { app:'#27ae60', mpp:'#2980b9', emp:'#e67e22', fs:'#9b59b6' };
+  var selected  = [];
+  for(var p in state) { if(state[p]) selected.push(p); }
+
+  // Programs selected
+  html += '<div style="background:#f0f4ff;border-left:4px solid #1a3a6b;padding:10px 14px;margin-bottom:16px;border-radius:0 4px 4px 0;">';
+  html += '<strong>Programs Selected:</strong> ';
+  html += selected.map(function(p){ return '<span style="background:'+colors[p]+';color:#fff;padding:2px 10px;border-radius:10px;font-size:11px;margin-left:4px;">'+progNames[p]+'</span>'; }).join(' ');
+  html += '</div>';
+
+  // SHARED: Basic Info
+  html += secHead(' Basic Information', '#1a3a6b');
+  var basicRows = [];
+
+  // Collect label-input pairs properly by walking each label and its nearest input
+  document.querySelectorAll('.fg .lbl, .fg h3').forEach(function(lbl) {
+    if(lbl.offsetParent === null) return; // skip hidden
+    var labelText = lbl.textContent.trim();
+    if(!labelText) return;
+
+    // Find the next input sibling
+    var next = lbl.nextElementSibling;
+    while(next) {
+      if(next.tagName === 'INPUT' && next.type === 'text') {
+        var val = next.value.trim();
+        if(val) basicRows.push(row2col(labelText, val));
+        break;
+      } else if(next.tagName === 'TEXTAREA') {
+        var val = next.value.trim();
+        if(val) basicRows.push(row2col(labelText, val));
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+  });
+
+  // Checkboxes (PWD, Senior Citizen)
+  var cbs = [];
+  document.querySelectorAll('.fg input[type=checkbox]:checked').forEach(function(cb){
+    cbs.push(cb.parentElement.textContent.trim());
+  });
+  if(cbs.length) basicRows.push(row2col('Special Classification', cbs.join(', ')));
+
+  // Radios in basic info
+  document.querySelectorAll('.fg input[type=radio]:checked').forEach(function(r){
+    basicRows.push(row2col('Sex', r.parentElement.textContent.trim()));
+  });
+
+  html += basicRows.length ? '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;">'+basicRows.join('')+'</table>' : emptyNote();
+
+  // SHARED: Previous Consultations
+  html += secHead('Previous Consultations', '#1a3a6b');
+  var anyConChecked = document.querySelector('input[name=prev_con]:checked');
+
+  if(!anyConChecked) {
+    html += emptyNote();
+  } else if(anyConChecked.value === 'yes') {
+    // Manually collect consultation rows
+    var conRows = '';
+    document.querySelectorAll('#con_tb tr').forEach(function(row){
+      var inputs = row.querySelectorAll('input[type=text]');
+      var vals = [];
+      inputs.forEach(function(inp){ vals.push(inp.value.trim()); });
+      if(vals.some(function(v){ return v !== ''; })) {
+        conRows += '<tr>';
+        vals.forEach(function(v){ conRows += '<td style="padding:4px 8px;border:1px solid #eee;font-size:11px;">'+v+'</td>'; });
+        conRows += '</tr>';
+      }
+    });
+    if(conRows) {
+      html += '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;"><thead><tr>';
+      ['Agency/Company','Date of Assistance','Type of Assistance'].forEach(function(h){
+        html += '<th style="background:#1a3a6b;color:#fff;padding:5px 8px;text-align:left;border:1px solid #aaa;">'+h+'</th>';
+      });
+      html += '</tr></thead><tbody>'+conRows+'</tbody></table>';
+    } else {
+      html += '<p style="font-size:11px;color:#555;margin-bottom:12px;">Yes — but no details provided.</p>';
+    }
+  } else {
+    var noReason = document.getElementById('con_no_reason');
+    html += '<p style="font-size:11px;color:#555;margin-bottom:12px;"><strong>No prior consultation.</strong>' + (noReason && noReason.value ? ' Reason: '+noReason.value : '') + '</p>';
+  }
+
+  // PROGRAM SPECIFIC
+  selected.forEach(function(p) {
+    var sec = document.getElementById('s_'+p);
+    if(!sec) return;
+    html += secHead(progNames[p] + ' — Program-Specific Information', colors[p]);
+    var rows = [];
+
+    // Walk each label and find its nearest input
+    sec.querySelectorAll('.lbl').forEach(function(lbl) {
+      if(lbl.offsetParent === null) return;
+      var labelText = lbl.textContent.trim();
+      if(!labelText) return;
+      var next = lbl.nextElementSibling;
+      while(next) {
+        if((next.tagName === 'INPUT' && next.type === 'text') || next.tagName === 'TEXTAREA') {
+          var val = next.value.trim();
+          if(val) rows.push(row2col(labelText, val));
+          break;
+        } else if(next.tagName === 'SELECT') {
+          var val = next.value.trim();
+          if(val) rows.push(row2col(labelText, val));
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+    });
+
+    // Checked checkboxes
+    var cbsP = [];
+    sec.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb){
+      cbsP.push(cb.parentElement.textContent.trim().replace(/\s+/g,' '));
+    });
+    if(cbsP.length) rows.push(row2col('Selected Options', cbsP.join(', ')));
+
+    // Checked radios
+    sec.querySelectorAll('input[type=radio]:checked').forEach(function(r){
+      if(!r.name) return;
+      var niceName = r.name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+      rows.push(row2col(niceName, r.parentElement.textContent.trim().replace(/\s+/g,' ')));
+    });
+
+    html += rows.length ? '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;">'+rows.join('')+'</table>' : '';
+
+    // APP: Farm Data table
+    if(p === 'app') {
+      var farmRows = '';
+      document.querySelectorAll('#app_fb tr').forEach(function(row){
+        var cells = row.querySelectorAll('td');
+        var vals = [];
+        cells.forEach(function(td){
+          var inp = td.querySelector('input');
+          vals.push(inp ? inp.value.trim() : '');
+        });
+        if(vals.some(function(v){ return v !== ''; })) {
+          farmRows += '<tr>';
+          vals.forEach(function(v){ farmRows += '<td style="padding:4px 8px;border:1px solid #eee;font-size:11px;">'+v+'</td>'; });
+          farmRows += '</tr>';
+        }
+      });
+      if(farmRows) {
+        html += '<div style="font-size:11px;font-weight:bold;margin:8px 0 4px;color:#1a3a6b;">D. Farm Data</div>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;">';
+        html += '<thead><tr>';
+        ['Commodity','Variety/Breed','Area','Avg. Yield/Cropping Season','Avg. Income/Cropping Season','No. of Cropping/Year','Other Info'].forEach(function(h){
+          html += '<th style="background:#27ae60;color:#fff;padding:4px 8px;text-align:left;font-size:10.5px;">'+h+'</th>';
+        });
+        html += '</tr></thead><tbody>'+farmRows+'</tbody></table>';
+      }
+    }
+
+    if(!rows.length && p !== 'app') html += emptyNote();
+
+    // FS: Registration fields (special handling since they use IDs not .lbl)
+    if(p === 'fs') {
+      var regFields = [
+        {chk:'chk_dole', label:'DOLE/CDA/SEC Registration', no:'fs_dole_no', valid:'fs_dole_valid'},
+        {chk:'chk_dti',  label:'DTI Registration',           no:'fs_dti_no',  valid:'fs_dti_valid'},
+        {chk:'chk_bp',   label:'Business Permit',            no:'fs_bp_no',   valid:'fs_bp_valid'},
+        {chk:'chk_fda',  label:'FDA License to Operate',     no:'fs_fda_no',  valid:'fs_fda_valid'},
+      ];
+      var regRows = '';
+      regFields.forEach(function(f){
+        var chk = document.getElementById(f.chk);
+        var no  = document.getElementById(f.no);
+        var vld = document.getElementById(f.valid);
+        if(chk && chk.checked && (no&&no.value || vld&&vld.value)) {
+          regRows += row2col(f.label, 'Reg. No.: '+(no?no.value:'—')+' | Valid Until: '+(vld?vld.value:'—'));
+        }
+      });
+      // CPR
+      var cpr1p = document.getElementById('fs_cpr1_prod');
+      var cpr1n = document.getElementById('fs_cpr1_no');
+      var cpr1v = document.getElementById('fs_cpr1_valid');
+      if(cpr1p&&cpr1p.value) regRows += row2col('FDA CPR — Product 1', cpr1p.value+' | CPR No.: '+(cpr1n?cpr1n.value:'—')+' | Valid Until: '+(cpr1v?cpr1v.value:'—'));
+      var cpr2p = document.getElementById('fs_cpr2_prod');
+      var cpr2n = document.getElementById('fs_cpr2_no');
+      var cpr2v = document.getElementById('fs_cpr2_valid');
+      if(cpr2p&&cpr2p.value) regRows += row2col('FDA CPR — Product 2', cpr2p.value+' | CPR No.: '+(cpr2n?cpr2n.value:'—')+' | Valid Until: '+(cpr2v?cpr2v.value:'—'));
+      // Other
+      var otherReg = document.getElementById('fs_other_reg');
+      if(otherReg&&otherReg.value) regRows += row2col('Other Registration', otherReg.value);
+
+      if(regRows) {
+        html += '<div style="font-size:11px;font-weight:bold;margin:8px 0 4px;color:#9b59b6;">Business Registration &amp; Certifications</div>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;">'+regRows+'</table>';
+      }
+
+      // FS Level tables
+      var lvlTables = [
+        {id:'Level 1 — Trainings Attended', headers:['Training/Seminar','Yes/No','Date Attended','Service Provider','Remarks']},
+        {id:'Level 2 — Food Safety Manuals', headers:['Manual','Yes/None','Date Attended','Service Provider','Updated Records?']},
+        {id:'Level 3', headers:['Question','Yes/No','Remarks']},
+        {id:'Specialized Trainings/Consultancy', headers:['Training/Consultancy','Yes/No','Remarks']},
+      ];
+      var fsTables = sec.querySelectorAll('table');
+      fsTables.forEach(function(tbl, idx){
+        var thead = tbl.querySelector('thead');
+        var headers = [];
+        if(thead) thead.querySelectorAll('th').forEach(function(th){ headers.push(th.textContent.trim()); });
+        var trows = '';
+        tbl.querySelectorAll('tbody tr').forEach(function(row){
+          var cells = row.querySelectorAll('td');
+          var vals = [];
+          cells.forEach(function(td){
+            var inp = td.querySelector('input[type=text]');
+            var sel = td.querySelector('select');
+            vals.push(inp ? inp.value.trim() : sel ? sel.value.trim() : td.textContent.trim());
+          });
+          if(vals.some(function(v){ return v && v !== ''; })) {
+            trows += '<tr>';
+            vals.forEach(function(v){ trows += '<td style="padding:4px 8px;border:1px solid #eee;font-size:10.5px;">'+v+'</td>'; });
+            trows += '</tr>';
+          }
+        });
+        if(trows) {
+          var lvlLabel = idx === 0 ? 'Level 1 — Trainings Attended' : idx === 1 ? 'Level 2 — Food Safety Manuals' : idx === 2 ? 'Level 3' : idx === 3 ? 'Specialized Trainings/Consultancy' : 'Recommendation';
+          html += '<div style="font-size:11px;font-weight:bold;margin:8px 0 4px;color:#9b59b6;">'+lvlLabel+'</div>';
+          html += '<table style="width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:10px;"><thead><tr>';
+          headers.forEach(function(h){ html += '<th style="background:#9b59b6;color:#fff;padding:4px 8px;text-align:left;">'+h+'</th>'; });
+          html += '</tr></thead><tbody>'+trows+'</tbody></table>';
+        }
+      });
+    }
+  });
+
+  // Pre-Assessment
+  html += secHead(' Pre-Assessment (DOST Staff)', '#555');
+  html += tableFromEl('psto_tb', ['Possible Areas','Technical Needs/Problems','Initial Recommendations']);
+
+  document.getElementById('summary_content').innerHTML = html;
+  document.getElementById('summary_overlay').style.display = 'block';
+  document.getElementById('summary_overlay').scrollTop = 0;
+}
+
+function saveAsPDF() {
+  var btn = event.target;
+  btn.textContent = '⏳ Generating PDF...';
+  btn.disabled = true;
+
+  // Load jsPDF and html2canvas dynamically
+  function loadScript(src, cb) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  function generatePDF() {
+    var overlay = document.getElementById('summary_overlay');
+    var content = document.getElementById('summary_content');
+
+    // Temporarily style for clean capture
+    overlay.style.display = 'none';
+
+    // Create a clean printable div
+    var printDiv = document.createElement('div');
+    printDiv.style.cssText = 'width:794px;padding:30px;background:#fff;font-family:Arial,sans-serif;font-size:12px;position:fixed;top:-9999px;left:-9999px;';
+    printDiv.innerHTML = content.innerHTML;
+    document.body.appendChild(printDiv);
+
+    html2canvas(printDiv, { scale: 2, useCORS: true, backgroundColor: '#fff' }).then(function(canvas) {
+      var imgData = canvas.toDataURL('image/jpeg', 0.95);
+      var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+      var pageW = pdf.internal.pageSize.getWidth();
+      var pageH = pdf.internal.pageSize.getHeight();
+      var imgW = pageW;
+      var imgH = (canvas.height * imgW) / canvas.width;
+      var y = 0;
+
+      // Add pages if content is longer than one page
+      while(y < imgH) {
+        if(y > 0) pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, -y, imgW, imgH);
+        y += pageH;
+      }
+
+      // Get applicant name for filename
+      var entityInput = document.querySelector('.fg input[type=text]');
+      var entityName = entityInput && entityInput.value.trim() ? entityInput.value.trim() : 'Applicant';
+      var date = new Date().toISOString().slice(0,10);
+      pdf.save('DOST3_Form_' + entityName.replace(/\s+/g,'_') + '_' + date + '.pdf');
+
+      // Cleanup
+      document.body.removeChild(printDiv);
+      overlay.style.display = 'block';
+      btn.textContent = ' Save as PDF';
+      btn.disabled = false;
+    });
+  }
+
+  // Load libraries if not yet loaded
+  if(typeof html2canvas === 'undefined') {
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js', function() {
+      if(typeof jspdf === 'undefined') {
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', generatePDF);
+      } else {
+        generatePDF();
+      }
+    });
+  } else {
+    if(typeof jspdf === 'undefined') {
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', generatePDF);
+    } else {
+      generatePDF();
+    }
+  }
+}
+
+function submitToSheet() {
+  var btn = document.getElementById('submit_btn');
+  btn.textContent = '⏳ Submitting...';
+  btn.disabled = true;
+
+  // Collect all data
+  var progLabels = { app:'APP - Agricultural Productivity Program', mpp:'MPP - Manufacturing Productivity Program', emp:'EMP - Energy Management Program', fs:'Food Safety Enrollment Form' };
+  var selected = [];
+  for(var p in state){ if(state[p]) selected.push(progLabels[p]); }
+
+  var entityInput = document.querySelector('.fg input[type=text]');
+  var entityName = entityInput ? entityInput.value.trim() : 'Applicant';
+
+  // Collect all field data
+  var formData = { applicant: entityName, programs: selected.join(', ') };
+
+  // Shared fields — walk each label and its nearest input
+  document.querySelectorAll('.fg .lbl, .fg h3').forEach(function(lbl) {
+    if(lbl.offsetParent === null) return;
+    var labelText = lbl.textContent.trim();
+    if(!labelText) return;
+    var next = lbl.nextElementSibling;
+    while(next) {
+      if((next.tagName === 'INPUT' && next.type === 'text') || next.tagName === 'TEXTAREA') {
+        var val = next.value.trim();
+        if(val) formData[labelText] = val;
+        break;
+      }
+      next = next.nextElementSibling;
+    }
+  });
+
+  // Shared checkboxes
+  var cbs = [];
+  document.querySelectorAll('.fg input[type=checkbox]:checked').forEach(function(cb){
+    cbs.push(cb.parentElement.textContent.trim());
+  });
+  if(cbs.length) formData['Special Classification'] = cbs.join(', ');
+
+  // Contact and email
+  var contact = document.querySelector('#shared_sections input[placeholder="Telephone / Mobile"]');
+  var email = document.querySelector('#shared_sections input[placeholder="email@example.com"]');
+  if(contact) formData['contact'] = contact.value.trim();
+  if(email) formData['email'] = email.value.trim();
+
+  // Previous Consultations
+  var anyConChecked = document.querySelector('input[name=prev_con]:checked');
+  if(anyConChecked && anyConChecked.value === 'yes') {
+    var conRows = [];
+    document.querySelectorAll('#con_tb tr').forEach(function(row){
+      var inputs = row.querySelectorAll('input[type=text]');
+      var vals = []; inputs.forEach(function(i){ vals.push(i.value.trim()); });
+      if(vals.some(function(v){return v;})) conRows.push(vals.join(' | '));
+    });
+    formData['Previous Consultations'] = 'Yes — ' + (conRows.length ? conRows.join(' || ') : 'No details provided');
+  } else if(anyConChecked && anyConChecked.value === 'no') {
+    var noReason = document.getElementById('con_no_reason');
+    formData['Previous Consultations'] = 'No. ' + (noReason && noReason.value ? 'Reason: '+noReason.value : '');
+  }
+
+  // Program specific — walk each label and its nearest input
+  for(var p in state){
+    if(!state[p]) continue;
+    var sec = document.getElementById('s_'+p);
+    if(!sec) continue;
+
+    sec.querySelectorAll('.lbl, h3.sub').forEach(function(lbl) {
+      if(lbl.offsetParent === null) return;
+      var labelText = lbl.textContent.trim();
+      if(!labelText) return;
+      var next = lbl.nextElementSibling;
+      while(next) {
+        if((next.tagName === 'INPUT' && next.type === 'text') || next.tagName === 'TEXTAREA') {
+          var val = next.value.trim();
+          if(val) formData[labelText] = val;
+          break;
+        } else if(next.tagName === 'SELECT') {
+          var val = next.value.trim();
+          if(val) formData[labelText] = val;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+    });
+
+    // APP: Farm Data table
+    if(p === 'app') {
+      var farmDataRows = [];
+      document.querySelectorAll('#app_fb tr').forEach(function(row, idx){
+        var cells = row.querySelectorAll('td');
+        var vals = [];
+        cells.forEach(function(td){ var inp = td.querySelector('input'); vals.push(inp ? inp.value.trim() : ''); });
+        if(vals.some(function(v){ return v !== ''; })) {
+          farmDataRows.push('Row '+(idx+1)+': '+vals.join(' | '));
+        }
+      });
+      if(farmDataRows.length) formData['Farm Data (D)'] = farmDataRows.join(' || ');
+    }
+
+    // Checkboxes
+    var checked = [];
+    sec.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb){
+      checked.push(cb.parentElement.textContent.trim().replace(/\s+/g,' '));
+    });
+    if(checked.length) formData[progLabels[p]+' - Selected'] = checked.join(', ');
+
+    // Radios
+    sec.querySelectorAll('input[type=radio]:checked').forEach(function(r){
+      if(!r.name) return;
+      var niceName = r.name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+      formData[niceName] = r.parentElement.textContent.trim().replace(/\s+/g,' ');
+    });
+  }
+
+  // Generate exact same HTML as the Review Your Answers modal
+  formData['summaryHTML'] = document.getElementById('summary_content').innerHTML;
+  formData['timestamp'] = new Date().toLocaleString('en-PH');
+
+  // Send to Google Apps Script
+  fetch('https://script.google.com/macros/s/AKfycbwH6DtPKnDmijeDshGmhk24A1MKrHcCABpdYTP-uZSP_VBlHMzgly998EwnfZu_OMWn/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(function() {
+    document.getElementById('success_msg').style.display = 'block';
+    btn.style.display = 'none';
+  })
+  .catch(function() {
+    btn.textContent = ' Submit to DOST-3';
+    btn.disabled = false;
+    alert('Connection error. Please check your internet and try again.');
+  });
+}
+
+
+function closeSummary() {
+  document.getElementById('summary_overlay').style.display = 'none';
+}
+
+function secHead(title, color) {
+  return '<div style="background:'+color+';color:#fff;padding:7px 12px;font-weight:bold;font-size:12px;border-radius:4px;margin:16px 0 8px;">'+title+'</div>';
+}
+
+function row2col(label, value) {
+  return '<tr><td style="padding:4px 8px;border:1px solid #eee;font-weight:bold;color:#555;width:35%;background:#fafafa;">'+label+'</td><td style="padding:4px 8px;border:1px solid #eee;">'+value+'</td></tr>';
+}
+
+function emptyNote() {
+  return '<p style="font-size:11px;color:#aaa;font-style:italic;margin-bottom:12px;">No information filled in for this section.</p>';
+}
+
+function tableFromEl(tbodyId, headers) {
+  var tb = document.getElementById(tbodyId);
+  if(!tb) return emptyNote();
+  var rows = tb.querySelectorAll('tr');
+  var hasData = false;
+  var html = '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px;"><thead><tr>';
+  headers.forEach(function(h){ html += '<th style="background:#555;color:#fff;padding:5px 8px;text-align:left;border:1px solid #aaa;">'+h+'</th>'; });
+  html += '</tr></thead><tbody>';
+  rows.forEach(function(row){
+    var cells = row.querySelectorAll('td');
+    var vals = [];
+    cells.forEach(function(td){
+      var inp = td.querySelector('input[type=text]');
+      vals.push(inp ? inp.value.trim() : td.textContent.trim());
+    });
+    if(vals.some(function(v){ return v !== ''; })) {
+      hasData = true;
+      html += '<tr>';
+      vals.forEach(function(v){ html += '<td style="padding:4px 8px;border:1px solid #eee;">'+v+'</td>'; });
+      html += '</tr>';
+    }
+  });
+  html += '</tbody></table>';
+  return hasData ? html : emptyNote();
+}
+</script>
+</body>
+</html>
