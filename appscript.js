@@ -227,10 +227,10 @@ function sendEmail(data, token) {
   body += '</div>';
   body += '</div></body></html>';
 
-  GmailApp.sendEmail('abenedicto431@gmail.com', subject, '', { htmlBody: body });
+  GmailApp.sendEmail('benedictoseph@gmail.com', subject, '', { htmlBody: body });
 }
 function buildViewPage(data, token) {
-  var editLink = 'https://abenedicto431-glitch.github.io/DOST-FORMS/edit.html?token=' + token;
+  var editLink = 'https://benedictoseph-glitch.github.io/DOST-FORMS/edit.html?token=' + token;
   var summaryHTML = data.summaryHTML || '<p style="color:#aaa;">No summary available.</p>';
 
   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
