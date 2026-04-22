@@ -447,28 +447,23 @@ window.onload = function() {
     return;
   }
 
-  var iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = SCRIPT_URL + '?token=' + token + '&action=getjson';
-  document.body.appendChild(iframe);
-
-  var timeout = setTimeout(function() {
-    document.getElementById('loading_msg').style.display = 'none';
-    document.getElementById('edit_form').style.display = 'block';
-  }, 4000);
-
-  window.addEventListener('message', function(event) {
-    clearTimeout(timeout);
-    try {
-      var data = JSON.parse(event.data);
-      submissionData = data;
-      populateForm(data);
-    } catch(err) {}
-    document.getElementById('loading_msg').style.display = 'none';
-    document.getElementById('edit_form').style.display = 'block';
-  });
+  fetch(SCRIPT_URL + '?token=' + token + '&action=getjson')
+    .then(function(response) { return response.text(); })
+    .then(function(text) {
+      var match = text.match(/postMessage\('(.+)',/);
+      if(match) {
+        var data = JSON.parse(match[1].replace(/\\'/g, "'"));
+        submissionData = data;
+        populateForm(data);
+      }
+      document.getElementById('loading_msg').style.display = 'none';
+      document.getElementById('edit_form').style.display = 'block';
+    })
+    .catch(function() {
+      document.getElementById('loading_msg').textContent = 'Error loading data. Please try again.';
+    });
 };
-
+  
 function populateForm(d) {
   var programs = (d.programs || '').split(', ');
   var isApp = programs.some(function(p){ return p.indexOf('APP') > -1; });
