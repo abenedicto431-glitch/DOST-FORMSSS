@@ -206,40 +206,29 @@ function sendEmail(data, token) {
 
   var body = '<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;background:#e8edf5;margin:0;padding:20px;">';
   body += '<div style="max-width:860px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1);">';
-
-  // Header
   body += '<div style="background:#1a3a6b;padding:20px 28px;text-align:center;">';
   body += '<h2 style="color:#fff;margin:0;font-size:16px;">DEPARTMENT OF SCIENCE AND TECHNOLOGY</h2>';
-  body += '<p style="color:#a0c4ff;margin:4px 0 0;font-size:12px;">2025 Assessment and Qualifying Form — New Submission</p>';
+  body += '<p style="color:#a0c4ff;margin:4px 0 0;font-size:12px;">2025 Assessment and Qualifying Form - New Submission</p>';
   body += '</div>';
-
-  // Meta
   body += '<div style="background:#f0f4ff;padding:14px 28px;border-bottom:1px solid #dde;font-size:12px;">';
-  body += '<p style="margin:0;"><strong>Applicant:</strong> '+(data.applicant||'—')+'</p>';
-  body += '<p style="margin:4px 0 0;"><strong>Programs:</strong> '+(data.programs||'—')+'</p>';
+  body += '<p style="margin:0;"><strong>Applicant:</strong> '+(data.applicant||'')+'</p>';
+  body += '<p style="margin:4px 0 0;"><strong>Programs:</strong> '+(data.programs||'')+'</p>';
   body += '<p style="margin:4px 0 0;"><strong>Submitted:</strong> '+(data.timestamp||new Date().toLocaleString())+'</p>';
   body += '</div>';
-
-  // Action Buttons
   body += '<div style="padding:16px 28px;text-align:center;border-bottom:1px solid #eee;">';
-  body += '<a href="'+viewLink+'" style="display:inline-block;background:#1a3a6b;color:#fff;padding:10px 24px;border-radius:4px;text-decoration:none;font-weight:bold;font-size:13px;margin:4px;">View &amp; Download as PDF</a>';
+  body += '<a href="'+viewLink+'" style="display:inline-block;background:#1a3a6b;color:#fff;padding:10px 24px;border-radius:4px;text-decoration:none;font-weight:bold;font-size:13px;margin:4px;">View and Download as PDF</a>';
   body += '<a href="'+editLink+'" style="display:inline-block;background:#27ae60;color:#fff;padding:10px 24px;border-radius:4px;text-decoration:none;font-weight:bold;font-size:13px;margin:4px;">Edit Submission</a>';
   body += '</div>';
-
-  // Exact summary from the form
   body += '<div style="padding:20px 28px;">';
   body += summaryHTML;
   body += '</div>';
-
-  // Footer
   body += '<div style="background:#1a3a6b;padding:14px 28px;text-align:center;">';
   body += '<p style="color:#a0c4ff;font-size:11px;margin:0;">DOST-3 2025 Assessment and Qualifying Form System</p>';
   body += '</div>';
-
   body += '</div></body></html>';
+
   GmailApp.sendEmail('abenedicto431@gmail.com', subject, '', { htmlBody: body });
 }
-
 function buildViewPage(data, token) {
   var editLink = 'https://abenedicto431-glitch.github.io/DOST-FORMS/edit.html?token=' + token;
   var summaryHTML = data.summaryHTML || '<p style="color:#aaa;">No summary available.</p>';
