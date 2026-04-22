@@ -201,7 +201,7 @@ function buildViewPage(data, token) {
 function sendEmail(data, token) {
   var viewLink = 'https://script.google.com/macros/s/AKfycbwH6DtPKnDmijeDshGmhk24A1MKrHcCABpdYTP-uZSP_VBlHMzgly998EwnfZu_OMWn/exec?token=' + token + '&action=view';
   var editLink = 'https://abenedicto431-glitch.github.io/DOST-FORMS/edit.html?token=' + token;
-  var summaryHTML = (data.summaryHTML || '<p style="color:#aaa;">No summary available.</p>').replace(/[\uFFFD\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}]/gu, '');
+  var summaryHTML = (data.summaryHTML || '<p>No summary.</p>').replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}\u{FE00}-\u{FEFF}]/gu, '');
   var subject = 'DOST-3 New Submission - ' + (data.applicant||'Applicant') + ' (' + (data.programs||'') + ')';
 
   var body = '<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;background:#e8edf5;margin:0;padding:20px;">';
