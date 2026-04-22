@@ -176,7 +176,7 @@ hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
 <div class="top-bar">
   <div class="top-bar-inner">
     <span>DOST-3 · 2025 Assessment and Qualifying Form</span>
-    <button class="print-btn" onclick="window.print()"> Print</button>
+    <button class="print-btn" onclick="window.print()">Print</button>
   </div>
 </div>
 
@@ -187,30 +187,30 @@ hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
 
   <!-- PROGRAM SELECTOR -->
   <div class="program-selector">
-    <div class="sel-title"> SELECT PROGRAM/S:</div>
+    <div class="sel-title">SELECT PROGRAM/S:</div>
     <div class="prog-options">
       <div class="prog-option" id="opt_app" onclick="tog('app')">
         <input type="checkbox" id="chk_app" onclick="event.stopPropagation();tog('app')">
-        <div><div class="opt-label"> Agricultural Productivity Program (APP)</div><div class="opt-sub">For farms and agricultural/aquacultural operations</div></div>
+        <div class="opt-label">Agricultural Productivity Program (App)</div>
       </div>
       <div class="prog-option" id="opt_mpp" onclick="tog('mpp')">
         <input type="checkbox" id="chk_mpp" onclick="event.stopPropagation();tog('mpp')">
-        <div><div class="opt-label"> Manufacturing Productivity Program – BASIC/Regular (MPP)</div><div class="opt-sub">For manufacturing firms and enterprises</div></div>
+        <div class="opt-label">Manufacturing Productivity Program – BASIC/Regular (MPP)</div>
       </div>
       <div class="prog-option" id="opt_emp" onclick="tog('emp')">
         <input type="checkbox" id="chk_emp" onclick="event.stopPropagation();tog('emp')">
-        <div><div class="opt-label"> Energy Management Program (EMP)</div><div class="opt-sub">For firms seeking energy assessment and management assistance</div></div>
+        <div class="opt-label">Energy Management Program (EMP)</div>
       </div>
       <div class="prog-option" id="opt_fs" onclick="tog('fs')">
         <input type="checkbox" id="chk_fs" onclick="event.stopPropagation();tog('fs')">
-        <div><div class="opt-label"> Food Safety (FS) Enrollment Form</div><div class="opt-sub">For food businesses seeking food safety consultancy</div></div>
+        <div class="opt-label">Food Safety (FS) Enrollment Form</div>
       </div>
     </div>
     <div class="active-badges">
-      <span class="badge badge-app" id="bdg_app"> APP</span>
-      <span class="badge badge-mpp" id="bdg_mpp"> MPP</span>
-      <span class="badge badge-emp" id="bdg_emp"> EMP</span>
-      <span class="badge badge-fs"  id="bdg_fs"> Food Safety</span>
+      <span class="badge badge-app" id="bdg_app">APP</span>
+      <span class="badge badge-mpp" id="bdg_mpp">MPP</span>
+      <span class="badge badge-emp" id="bdg_emp">EMP</span>
+      <span class="badge badge-fs"  id="bdg_fs">Food Safety</span>
     </div>
   </div>
 
@@ -834,8 +834,7 @@ hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
       cursor: pointer; border-radius: 6px;
       box-shadow: 0 4px 12px rgba(39,174,96,0.4);
       transition: all 0.2s;
-    " onmouseover="this.style.background='#1e8449'" onmouseout="this.style.background='#27ae60'">
-       Review &amp; Submit
+    " onmouseover="this.style.background='#1e8449'" onmouseout="this.style.background='#27ae60'">Review &amp; Submit
     </button>
     <p style="font-size:10.5px; color:#888; margin-top:8px;">Please review your answers before submitting.</p>
   </div>
@@ -855,10 +854,10 @@ hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
     <!-- Summary Header -->
     <div style="background:#1a3a6b; color:#fff; padding:16px 24px; display:flex; align-items:center; justify-content:space-between;">
       <div>
-        <div style="font-size:15px; font-weight:bold;"> Review Your Answers</div>
+        <div style="font-size:15px; font-weight:bold;">Review Your Answers</div>
         <div style="font-size:11px; color:#a0c4ff; margin-top:2px;">Please check all information before printing or saving.</div>
       </div>
-      <button onclick="closeSummary()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:12px;"> Close</button>
+      <button onclick="closeSummary()" style="background:rgba(255,255,255,0.15); color:#fff; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:12px;">Close</button>
     </div>
 
     <!-- Summary Content -->
@@ -866,23 +865,19 @@ hr.div { border: none; border-top: 2px solid #eee; margin: 16px 0; }
 
     <!-- Summary Footer Buttons -->
     <div style="padding:16px 24px; border-top:1px solid #eee; display:flex; gap:12px; justify-content:flex-end; background:#f9f9f9; flex-wrap:wrap;">
-      <button onclick="closeSummary()" style="background:#e0e0e0; color:#333; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
-         Edit Answers
+      <button onclick="closeSummary()" style="background:#e0e0e0; color:#333; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">Edit Answers
       </button>
-      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
-         Save as PDF
+      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">Save as PDF
       </button>
-      <button onclick="submitToSheet()" id="submit_btn" style="background:#27ae60; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
-         Submit to DOST-3
+      <button onclick="submitToSheet()" id="submit_btn" style="background:#27ae60; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">Submit to DOST-3
       </button>
     </div>
 
     <!-- Success Message -->
     <div id="success_msg" style="display:none; background:#eafaf1; border-top:3px solid #27ae60; padding:20px 24px; text-align:center;">
-      <div style="font-size:16px; font-weight:bold; color:#27ae60; margin-bottom:6px;"> Successfully Submitted!</div>
+      <div style="font-size:16px; font-weight:bold; color:#27ae60; margin-bottom:6px;">Successfully Submitted!</div>
       <div style="font-size:11px; color:#555; margin-bottom:12px;">Your form has been sent to DOST-3. Please save a copy for your records.</div>
-      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:8px 20px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">
-         Save as PDF
+      <button onclick="saveAsPDF()" style="background:#1a3a6b; color:#fff; border:none; padding:8px 20px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">Save as PDF
       </button>
     </div>
   </div>
@@ -938,7 +933,7 @@ function ar(id, cols) {
 
 function showSummary() {
   var html = '';
-  var progNames = { app:' APP', mpp:' MPP', emp:' EMP', fs:' Food Safety' };
+  var progNames = { app:'APP', mpp:'MPP', emp:'EMP', fs:'Food Safety' };
   var colors    = { app:'#27ae60', mpp:'#2980b9', emp:'#e67e22', fs:'#9b59b6' };
   var selected  = [];
   for(var p in state) { if(state[p]) selected.push(p); }
@@ -950,7 +945,7 @@ function showSummary() {
   html += '</div>';
 
   // SHARED: Basic Info
-  html += secHead(' Basic Information', '#1a3a6b');
+  html += secHead('Basic Information', '#1a3a6b');
   var basicRows = [];
 
   // Collect label-input pairs properly by walking each label and its nearest input
@@ -1026,7 +1021,7 @@ function showSummary() {
   selected.forEach(function(p) {
     var sec = document.getElementById('s_'+p);
     if(!sec) return;
-    html += secHead(progNames[p] + ' — Program-Specific Information', colors[p]);
+    html += secHead(progNames[p] + ' —Program-Specific Information', colors[p]);
     var rows = [];
 
     // Walk each label and find its nearest input
@@ -1168,7 +1163,7 @@ function showSummary() {
   });
 
   // Pre-Assessment
-  html += secHead(' Pre-Assessment (DOST Staff)', '#555');
+  html += secHead('Pre-Assessment (DOST Staff)', '#555');
   html += tableFromEl('psto_tb', ['Possible Areas','Technical Needs/Problems','Initial Recommendations']);
 
   document.getElementById('summary_content').innerHTML = html;
@@ -1227,7 +1222,7 @@ function saveAsPDF() {
       // Cleanup
       document.body.removeChild(printDiv);
       overlay.style.display = 'block';
-      btn.textContent = ' Save as PDF';
+      btn.textContent = 'Save as PDF';
       btn.disabled = false;
     });
   }
@@ -1252,7 +1247,7 @@ function saveAsPDF() {
 
 function submitToSheet() {
   var btn = document.getElementById('submit_btn');
-  btn.textContent = '⏳ Submitting...';
+  btn.textContent = 'Submitting...';
   btn.disabled = true;
 
   // Collect all data
@@ -1380,7 +1375,7 @@ function submitToSheet() {
     btn.style.display = 'none';
   })
   .catch(function() {
-    btn.textContent = ' Submit to DOST-3';
+    btn.textContent = 'Submit to DOST-3';
     btn.disabled = false;
     alert('Connection error. Please check your internet and try again.');
   });
