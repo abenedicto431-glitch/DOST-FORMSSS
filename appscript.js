@@ -76,7 +76,7 @@ var SKIP_KEYS = [
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
+    var sheet = SpreadsheetApp.openById('1Kg37heNWOuBulPfkXBiZkEi15fociUv3adnJTMExBKo').getActiveSheet();
 
     // ── Handle edit/update ───────────────────────────────────
     if (data._action === 'update' && data.token) {
@@ -140,7 +140,7 @@ function doGet(e) {
     return ContentService.createTextOutput('Invalid request.').setMimeType(ContentService.MimeType.TEXT);
   }
 
-  var sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
+  var sheet = SpreadsheetApp.openById('1Kg37heNWOuBulPfkXBiZkEi15fociUv3adnJTMExBKo').getActiveSheet();
   var rows  = sheet.getDataRange().getValues();
   var found = null;
 
