@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOST-3 Email Preview</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; font-size: 12px; color: #000; background: #e8edf5; padding: 20px; }
+
+/* ── DEMO TOGGLE BAR ──────────────────────────────────────── */
+.demo-bar {
+  max-width: 900px; margin: 0 auto 14px;
+  background: #fff; border: 1px solid #dde; border-radius: 6px;
+  padding: 12px 18px;
+}
+.demo-bar p { font-size: 11px; color: #555; margin-bottom: 8px; font-weight: bold; }
+.demo-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.tog-btn {
+  padding: 5px 14px; border-radius: 14px; font-size: 11px; font-weight: bold;
+  border: 2px solid; cursor: pointer; background: transparent; transition: all 0.2s;
+}
+.tog-app { border-color: #27ae60; color: #27ae60; }
+.tog-app.on { background: #27ae60; color: #fff; }
+.tog-mpp { border-color: #2980b9; color: #2980b9; }
+.tog-mpp.on { background: #2980b9; color: #fff; }
+.tog-emp { border-color: #e67e22; color: #e67e22; }
+.tog-emp.on { background: #e67e22; color: #fff; }
+.tog-fs  { border-color: #9b59b6; color: #9b59b6; }
+.tog-fs.on  { background: #9b59b6; color: #fff; }
+
+/* ── EMAIL CHROME ─────────────────────────────────────────── */
+.inbox-bar {
+  max-width: 900px; margin: 0 auto 0;
+  background: #1a3a6b; border-radius: 6px 6px 0 0;
+  padding: 10px 18px; display: flex; align-items: center; gap: 8px;
+}
+.inbox-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #e74c3c; }
+.dot-y { background: #f1c40f; }
+.dot-g { background: #27ae60; }
+.inbox-bar span { color: #a0b4d0; font-size: 11px; margin-left: 6px; }
+
+.inbox-meta {
+  max-width: 900px; margin: 0 auto;
+  background: #fff; border-left: 1px solid #dde; border-right: 1px solid #dde;
+  padding: 10px 18px; font-size: 11px; color: #555;
+  display: grid; grid-template-columns: 55px 1fr; gap: 3px 8px;
+}
+.inbox-meta strong { color: #1a3a6b; }
+
+.subject-line {
+  max-width: 900px; margin: 0 auto;
+  background: #f0f4ff; border: 1px solid #dde; border-bottom: none;
+  padding: 10px 18px; font-size: 12px; font-weight: bold; color: #1a3a6b;
+}
+
+/* ── EMAIL BODY ───────────────────────────────────────────── */
+.email-body {
+  max-width: 900px; margin: 0 auto 40px;
+  background: #fff; border-radius: 0 0 8px 8px;
+  overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border: 1px solid #dde;
+}
+
+.email-header { background: #1a3a6b; padding: 20px 28px; text-align: center; }
+.email-header h2 { color: #fff; margin: 0; font-size: 16px; }
+.email-header p  { color: #a0c4ff; margin: 4px 0 0; font-size: 12px; }
+
+.email-meta-block {
+  background: #f0f4ff; padding: 14px 28px;
+  border-bottom: 1px solid #dde; font-size: 12px;
+}
+.email-meta-block p { margin: 0; color: #333; }
+.email-meta-block p + p { margin-top: 4px; }
+
+.email-actions { padding: 16px 28px; text-align: center; border-bottom: 1px solid #eee; }
+.btn {
+  display: inline-block; padding: 10px 24px; border-radius: 4px;
+  text-decoration: none; font-weight: bold; font-size: 13px;
+  margin: 4px; color: #fff;
+}
+.btn-blue  { background: #1a3a6b; }
+.btn-green { background: #27ae60; }
+.email-actions p { font-size: 11px; color: #888; margin-top: 8px; }
+
+.email-content { padding: 20px 28px; }
+
+/* ── SUMMARY STYLES (mirrors buildSummaryHTML in GAS) ─────── */
+.prog-bar {
+  background: #f0f4ff; border-left: 4px solid #1a3a6b;
+  padding: 10px 14px; margin-bottom: 16px; border-radius: 0 4px 4px 0;
+}
+.prog-pill {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 11px; margin-left: 4px; color: #fff;
+}
+.pill-app { background: #27ae60; }
+.pill-mpp { background: #2980b9; }
+.pill-emp { background: #e67e22; }
+.pill-fs  { background: #9b59b6; }
+
+.sec-head {
+  color: #fff; padding: 7px 12px; font-weight: bold;
+  font-size: 12px; border-radius: 4px; margin: 16px 0 8px;
+}
+.sh-blue { background: #1a3a6b; }
+.sh-app  { background: #27ae60; }
+.sh-mpp  { background: #2980b9; }
+.sh-emp  { background: #e67e22; }
+.sh-fs   { background: #9b59b6; }
+.sh-grey { background: #555; }
+
+table.s { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; }
+table.s th { padding: 5px 8px; text-align: left; border: 1px solid #aaa; color: #fff; font-size: 11px; }
+table.s td { padding: 4px 8px; border: 1px solid #eee; color: #333; }
+table.s td.l { background: #fafafa; font-weight: bold; color: #555; width: 35%; }
+.th-app { background: #27ae60; }
+.th-mpp { background: #2980b9; }
+.th-emp { background: #e67e22; }
+.th-fs  { background: #9b59b6; }
+.th-grey{ background: #555; }
+
+.sub-lbl { font-size: 11px; font-weight: bold; margin: 8px 0 4px; }
+.c-app  { color: #27ae60; }
+.c-mpp  { color: #2980b9; }
+.c-emp  { color: #e67e22; }
+.c-fs   { color: #9b59b6; }
+.c-blue { color: #1a3a6b; }
+
+.empty-note { font-size: 11px; color: #aaa; font-style: italic; margin-bottom: 12px; }
+
+.email-footer { background: #1a3a6b; padding: 14px 28px; text-align: center; }
+.email-footer p { color: #a0c4ff; font-size: 11px; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- DEMO TOGGLE -->
+<div class="demo-bar">
+  <p>Toggle programs to preview the email layout:</p>
+  <div class="demo-options">
+    <button class="tog-btn tog-app on" onclick="tog('app')">APP</button>
+    <button class="tog-btn tog-mpp"    onclick="tog('mpp')">MPP</button>
+    <button class="tog-btn tog-emp"    onclick="tog('emp')">EMP</button>
+    <button class="tog-btn tog-fs"     onclick="tog('fs')">Food Safety</button>
+  </div>
+</div>
+
+<!-- INBOX CHROME -->
+<div class="inbox-bar">
+  <div class="inbox-dot dot-r"></div>
+  <div class="inbox-dot dot-y"></div>
+  <div class="inbox-dot dot-g"></div>
+  <span>Gmail — abenedicto431@gmail.com</span>
+</div>
+<div class="inbox-meta">
+  <strong>From:</strong>    <span>no-reply@dost3forms.com</span>
+  <strong>To:</strong>      <span>abenedicto431@gmail.com</span>
+  <strong>Date:</strong>    <span id="inbox_date"></span>
+</div>
+<div class="subject-line" id="inbox_subject"></div>
+
+<!-- EMAIL BODY -->
+<div class="email-body">
+
+  <div class="email-header">
+    <h2>DEPARTMENT OF SCIENCE AND TECHNOLOGY</h2>
+    <p>2025 Assessment and Qualifying Form — New Submission</p>
+  </div>
+
+  <div class="email-meta-block">
+    <p><strong>Applicant:</strong> Juan dela Cruz Farm</p>
+    <p><strong>Programs:</strong> <span id="meta_programs"></span></p>
+    <p><strong>Submitted:</strong> <span id="meta_date"></span></p>
+  </div>
+
+  <div class="email-actions">
+    <a class="btn btn-blue"  href="#">View and Download as PDF</a>
+    <a class="btn btn-green" href="#">Edit Submission</a>
+    <p>To save as PDF: Click View &rarr; Print &rarr; Change destination to "Save as PDF"</p>
+  </div>
+
+  <div class="email-content">
+
+    <!-- PROGRAM PILLS -->
+    <div class="prog-bar">
+      <strong>Programs Selected:</strong>
+      <span id="pill_app" class="prog-pill pill-app">APP - Agricultural Productivity Program</span>
+      <span id="pill_mpp" class="prog-pill pill-mpp" style="display:none;">MPP - Manufacturing Productivity Program</span>
+      <span id="pill_emp" class="prog-pill pill-emp" style="display:none;">EMP - Energy Management Program</span>
+      <span id="pill_fs"  class="prog-pill pill-fs"  style="display:none;">Food Safety Enrollment Form</span>
+    </div>
+
+    <!-- I. BASIC INFORMATION -->
+    <div class="sec-head sh-blue">Basic Information</div>
+    <table class="s">
+      <tr><td class="l">Name of Farm / Firm / Organization:</td><td>Juan dela Cruz Farm</td></tr>
+      <tr id="r_area"><td class="l">Area of Farm (ha):</td><td>3.5 ha</td></tr>
+      <tr id="r_estapp"><td class="l">Year Established:</td><td>2010</td></tr>
+      <tr id="r_workers"><td class="l">No. of Workers:</td><td>8</td></tr>
+      <tr><td class="l">Owner:</td><td>Juan dela Cruz</td></tr>
+      <tr><td class="l">Contact Person:</td><td>Maria dela Cruz</td></tr>
+      <tr><td class="l">Sex (M/F):</td><td>M</td></tr>
+      <tr><td class="l">Age:</td><td>52</td></tr>
+      <tr><td class="l">Position:</td><td>Farm Owner</td></tr>
+      <tr><td class="l">Complete Address:</td><td>Brgy. Sta. Lucia, San Jose, Nueva Ecija</td></tr>
+      <tr><td class="l">Contact Number / Mobile No.:</td><td>09171234567</td></tr>
+      <tr><td class="l">E-mail Address:</td><td>juanfarm@gmail.com</td></tr>
+    </table>
+
+    <!-- II. PREVIOUS CONSULTATIONS -->
+    <div class="sec-head sh-blue">Previous Consultations</div>
+    <p style="font-size:11px;color:#555;margin-bottom:12px;">No prior consultation. Reason: First time applicant.</p>
+
+    <!-- III. APP -->
+    <div id="sec_app">
+      <div class="sec-head sh-app">APP — Agricultural Productivity Program</div>
+      <table class="s">
+        <tr><td class="l">Brief Farm Background:</td><td>Rice and vegetable farm operating since 2010 in Nueva Ecija.</td></tr>
+        <tr><td class="l">Commodity 1:</td><td>Rice</td></tr>
+        <tr><td class="l">Commodity 2:</td><td>Ampalaya</td></tr>
+        <tr><td class="l">Commodity 3:</td><td>Sitaw</td></tr>
+      </table>
+      <div class="sub-lbl c-blue">D. Farm Data</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-app">Commodity</th><th class="th-app">Variety/Breed</th>
+          <th class="th-app">Area</th><th class="th-app">Avg. Yield/Season</th>
+          <th class="th-app">Avg. Income/Season</th><th class="th-app">Croppings/Year</th>
+          <th class="th-app">Other Info</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Rice</td><td>NSIC Rc222</td><td>2.5 ha</td><td>120 bags</td><td>Php 60,000</td><td>2</td><td>Irrigated</td></tr>
+          <tr><td>Ampalaya</td><td>Local</td><td>0.5 ha</td><td>500 kg</td><td>Php 15,000</td><td>3</td><td>—</td></tr>
+          <tr><td>Sitaw</td><td>Local</td><td>0.5 ha</td><td>300 kg</td><td>Php 9,000</td><td>3</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- III. MPP -->
+    <div id="sec_mpp" style="display:none;">
+      <div class="sec-head sh-mpp">MPP — Manufacturing Productivity Program</div>
+      <table class="s">
+        <tr><td class="l">Brief Firm Background:</td><td>Small-scale furniture manufacturing firm established in 2015.</td></tr>
+        <tr><td class="l">SETUP iFund Beneficiary:</td><td>No</td></tr>
+        <tr><td class="l">Year Firm Established:</td><td>2015</td></tr>
+        <tr><td class="l">Initial Capital (Php):</td><td>Php 800,000</td></tr>
+        <tr><td class="l">Type of Organization:</td><td>Single Proprietorship</td></tr>
+        <tr><td class="l">Company Registration No.:</td><td>CRN-2015-00123</td></tr>
+        <tr><td class="l">Year Registered:</td><td>2015</td></tr>
+        <tr><td class="l">Classification According to Capital:</td><td>Small (Php 1.5M – Php 15M)</td></tr>
+        <tr><td class="l">Classification According to Employment:</td><td>Small (10–99)</td></tr>
+        <tr><td class="l">No. of Employees (Production):</td><td>12</td></tr>
+        <tr><td class="l">No. of Employees (Non-Production):</td><td>4</td></tr>
+        <tr><td class="l">No. of Employees (Total):</td><td>16</td></tr>
+        <tr><td class="l">Annual Volume of Production:</td><td>500 units/year</td></tr>
+        <tr><td class="l">Estimated Value (Php):</td><td>Php 2,500,000</td></tr>
+        <tr><td class="l">Market:</td><td>Direct Export, Potential for Export</td></tr>
+        <tr><td class="l">Existing Local Market:</td><td>Nueva Ecija, Bulacan</td></tr>
+        <tr><td class="l">Target Additional Market:</td><td>Metro Manila</td></tr>
+        <tr><td class="l">Business Activity:</td><td>Furniture, Welding and Fabrication</td></tr>
+        <tr><td class="l">Specific products/services:</td><td>Wooden furniture, cabinets, chairs</td></tr>
+        <tr><td class="l">Firm's plan (next 5 years):</td><td>Expand production capacity and enter export market</td></tr>
+        <tr><td class="l">Firm's plan (next 10 years):</td><td>Establish a branch in Metro Manila</td></tr>
+      </table>
+      <div class="sub-lbl c-mpp">Technical Assistance Concerns Selected</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-mpp">Category</th>
+          <th class="th-mpp">Area of Concern</th>
+          <th class="th-mpp">Sub-areas Selected</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>A. Production</td><td>Process &amp; Operations</td><td>Production Issues, Procedures (SOP)</td></tr>
+          <tr><td>A. Production</td><td>Quality Control Assurance System</td><td>Rejects/Reworks</td></tr>
+          <tr><td>C. Administrative</td><td>Plant Maintenance</td><td>Preventive Maintenance</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- III. EMP -->
+    <div id="sec_emp" style="display:none;">
+      <div class="sec-head sh-emp">EMP — Energy Management Program</div>
+      <table class="s">
+        <tr><td class="l">Brief Firm Background:</td><td>Rice milling business operating since 2008 in Nueva Ecija.</td></tr>
+        <tr><td class="l">Year Firm Established:</td><td>2008</td></tr>
+        <tr><td class="l">Initial Capital (Php):</td><td>Php 3,000,000</td></tr>
+        <tr><td class="l">Type of Organization:</td><td>Single Proprietorship</td></tr>
+        <tr><td class="l">Classification According to Capital:</td><td>Small (Php 1.5M – Php 15M)</td></tr>
+        <tr><td class="l">Classification According to Employment:</td><td>Micro (1–9)</td></tr>
+        <tr><td class="l">No. of Employees (Total):</td><td>9</td></tr>
+        <tr><td class="l">Annual Volume of Production:</td><td>1,200 tons milled rice/year</td></tr>
+        <tr><td class="l">Estimated Value (Php):</td><td>Php 6,000,000</td></tr>
+        <tr><td class="l">Technical Problems (Energy):</td><td>High electricity cost during milling; aging motors causing energy inefficiency.</td></tr>
+        <tr><td class="l">Total kWh (1 year):</td><td>24,500 kWh</td></tr>
+        <tr><td class="l">Total Fuel Cost, Php (1 year):</td><td>Php 85,000</td></tr>
+        <tr><td class="l">Combined Total (Php/year):</td><td>Php 310,000</td></tr>
+      </table>
+      <div class="sub-lbl c-emp">Electricity Consumption (past 12 months)</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-emp">Month</th><th class="th-emp">kWh Consumed</th>
+          <th class="th-emp">Amount (Php)</th><th class="th-emp">Remarks</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>January</td><td>1,800</td><td>18,500</td><td>Peak milling</td></tr>
+          <tr><td>February</td><td>1,650</td><td>17,000</td><td>—</td></tr>
+          <tr><td>March</td><td>2,100</td><td>21,500</td><td>Harvest season</td></tr>
+          <tr><td>April</td><td>1,900</td><td>19,500</td><td>—</td></tr>
+          <tr><td>May</td><td>2,200</td><td>22,600</td><td>—</td></tr>
+          <tr><td>June</td><td>2,050</td><td>21,000</td><td>—</td></tr>
+          <tr><td>July</td><td>1,950</td><td>20,000</td><td>—</td></tr>
+          <tr><td>August</td><td>2,100</td><td>21,500</td><td>—</td></tr>
+          <tr><td>September</td><td>1,800</td><td>18,500</td><td>—</td></tr>
+          <tr><td>October</td><td>2,300</td><td>23,600</td><td>Harvest season</td></tr>
+          <tr><td>November</td><td>2,450</td><td>25,100</td><td>Peak milling</td></tr>
+          <tr><td>December</td><td>2,200</td><td>22,600</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="sub-lbl c-emp">Detailed Inventory of Energy Consuming Equipment</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-emp">Equipment and Basic Description</th><th class="th-emp">Qty</th>
+          <th class="th-emp">HP</th><th class="th-emp">kW</th>
+          <th class="th-emp">Hours of Operation/Day</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Rice Mill Motor</td><td>2</td><td>25</td><td>18.6</td><td>10</td></tr>
+          <tr><td>Conveyor Belt Motor</td><td>1</td><td>5</td><td>3.7</td><td>10</td></tr>
+          <tr><td>Lighting (Fluorescent)</td><td>20</td><td>—</td><td>0.04</td><td>12</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- III. FOOD SAFETY -->
+    <div id="sec_fs" style="display:none;">
+      <div class="sec-head sh-fs">Food Safety — Enrollment Form</div>
+      <table class="s">
+        <tr><td class="l">Type of Organization:</td><td>Single Proprietorship</td></tr>
+        <tr><td class="l">Classification According to Capital:</td><td>Micro (&lt;Php 3M)</td></tr>
+        <tr><td class="l">Classification According to Employment:</td><td>Micro (1–9)</td></tr>
+        <tr><td class="l">No. of Employees (M):</td><td>2</td></tr>
+        <tr><td class="l">No. of Employees (F):</td><td>4</td></tr>
+        <tr><td class="l">Existing Market:</td><td>Local Market</td></tr>
+        <tr><td class="l">Local Market Details:</td><td>Nueva Ecija wet markets and local stores</td></tr>
+        <tr><td class="l">Target Additional Market:</td><td>Online selling platforms</td></tr>
+        <tr><td class="l">Products/Services 1:</td><td>Homemade Tocino</td></tr>
+        <tr><td class="l">Products/Services 2:</td><td>Longganisa</td></tr>
+        <tr><td class="l">Products/Services 3:</td><td>Smoked Bangus</td></tr>
+      </table>
+      <div class="sub-lbl c-fs">Business Registration &amp; Certifications</div>
+      <table class="s">
+        <tr><td class="l">DTI Registration</td><td>Reg. No.: DTI-2019-0045 | Valid Until: 2025-12-31</td></tr>
+        <tr><td class="l">Business Permit</td><td>Reg. No.: BP-2024-1122 | Valid Until: 2024-12-31</td></tr>
+      </table>
+      <div class="sub-lbl c-fs">Level 1 — Trainings Attended</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-fs">Training/Seminar</th><th class="th-fs">Yes/No</th>
+          <th class="th-fs">Date Attended</th><th class="th-fs">Service Provider</th>
+          <th class="th-fs">Remarks</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>5S of Good Housekeeping</td><td>Yes</td><td>2023-03-15</td><td>DOST-3</td><td>Certificate received</td></tr>
+          <tr><td>Basic Food Hygiene (5 Keys)</td><td>Yes</td><td>2022-09-10</td><td>DOH</td><td>—</td></tr>
+          <tr><td>Food Hazards</td><td>No</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Food Laws</td><td>No</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Principles of GMP / Sanitation Code</td><td>No</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="sub-lbl c-fs">Level 2 — Food Safety Manuals</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-fs">Manual</th><th class="th-fs">Yes/None</th>
+          <th class="th-fs">Date</th><th class="th-fs">Service Provider</th>
+          <th class="th-fs">Updated Records?</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>GMP Manual</td><td>None</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>SSOPs</td><td>None</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>PSOPs</td><td>None</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>QSOPs</td><td>None</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Need assistance in facility and document audit?</td><td>Yes</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="sub-lbl c-fs">Level 3</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-fs">Question</th><th class="th-fs">Yes/No</th><th class="th-fs">Remarks</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Need assistance in acquiring FDA-LTO/CPR?</td><td>Yes</td><td>No existing LTO yet</td></tr>
+          <tr><td>Willing to shoulder expenses (application fee, lab analysis, etc.)?</td><td>Yes</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="sub-lbl c-fs">Specialized Trainings / Consultancy</div>
+      <table class="s">
+        <thead><tr>
+          <th class="th-fs">Training/Consultancy</th><th class="th-fs">Yes/No</th><th class="th-fs">Remarks</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Understanding Nutrition Facts and Packaging and Labeling</td><td>Yes</td><td>—</td></tr>
+          <tr><td>HACCP</td><td>Yes</td><td>—</td></tr>
+          <tr><td>GMP Certification</td><td>Yes</td><td>—</td></tr>
+          <tr><td>Halal</td><td>No</td><td>—</td></tr>
+          <tr><td>ISO 22000:2018</td><td>No</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <div class="sub-lbl c-fs">Recommendation (CLFST Member)</div>
+      <table class="s">
+        <tr><td class="l">Enrolled in:</td><td>Level 1, Level 3, Specialized Training / Consultancy</td></tr>
+        <tr><td class="l">Remarks:</td><td>Good candidate. Recommend immediate Level 1 enrollment and assist with FDA-LTO application.</td></tr>
+        <tr><td class="l">To be handled by:</td><td>Internal (Central Luzon Food Safety Team)</td></tr>
+      </table>
+    </div>
+
+    <!-- IV. PRE-ASSESSMENT -->
+    <div class="sec-head sh-grey">Pre-Assessment (DOST Staff)</div>
+    <p class="empty-note">Not yet filled by DOST Staff.</p>
+
+  </div><!-- end email-content -->
+
+  <div class="email-footer">
+    <p>DOST-3 2025 Assessment and Qualifying Form System</p>
+  </div>
+
+</div><!-- end email-body -->
+
+<script>
+var state = { app:true, mpp:false, emp:false, fs:false };
+
+var labels = {
+  app: 'APP - Agricultural Productivity Program',
+  mpp: 'MPP - Manufacturing Productivity Program',
+  emp: 'EMP - Energy Management Program',
+  fs:  'Food Safety Enrollment Form'
+};
+
+var appOnlyRows = ['r_area','r_estapp','r_workers'];
+
+function tog(p) {
+  state[p] = !state[p];
+  document.querySelector('.tog-' + p).classList.toggle('on', state[p]);
+  document.getElementById('sec_' + p).style.display  = state[p] ? 'block' : 'none';
+  document.getElementById('pill_' + p).style.display = state[p] ? 'inline-block' : 'none';
+  appOnlyRows.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = state.app ? '' : 'none';
+  });
+  updateMeta();
+}
+
+function updateMeta() {
+  var sel = [];
+  for (var p in state) { if (state[p]) sel.push(labels[p]); }
+  var joined = sel.length ? sel.join(', ') : '(none selected)';
+  document.getElementById('meta_programs').textContent  = joined;
+  document.getElementById('inbox_subject').textContent  =
+    'DOST-3 New Submission — Juan dela Cruz Farm (' + joined + ')';
+}
+
+function setDates() {
+  var d = new Date().toLocaleString('en-PH', {
+    year:'numeric', month:'long', day:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+  document.getElementById('inbox_date').textContent = d;
+  document.getElementById('meta_date').textContent  = d;
+}
+
+setDates();
+updateMeta();
+</script>
+</body>
+</html>
