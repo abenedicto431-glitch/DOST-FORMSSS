@@ -393,6 +393,7 @@ function sendEmail(data, token) {
     '</div>' +
 
     '</div></body></html>';
+  Logger.log(showCarCodes(body));
 
   GmailApp.sendEmail(NOTIFY_EMAIL, subject, '', { htmlBody: body });
 }
@@ -446,6 +447,12 @@ function buildViewPage(data, token) {
     '<div class="ftr no-print"><p>DOST-3 2025 Assessment and Qualifying Form System</p></div>' +
 
     '</div></body></html>';
+  return html;
+  function showCharCodes(str) {
+  return str.split('').map(function(c) {
+    return c + ' (' + c.charCodeAt(0) + ')';
+  }).join(' ');
+}
 
   return html;
 }
